@@ -22,49 +22,64 @@ class Home extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.orange[900]
       ),
-      body: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Column(
+      body: Column(
               children: <Widget>[
-                Container(
-                  color: Colors.grey[600],
-                  padding: EdgeInsets.all(30.0),
-                  child: Text("Died today")
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        color: Colors.grey[700],
+                        padding: EdgeInsets.all(30.0),
+                        child: Text("Died today")
+                      )
+                    ),
+                    Expanded(
+                      child: Container(
+                        color: Colors.grey[600],
+                        padding: EdgeInsets.all(30.0),
+                        child: Text("Died so far")
+                       )
+                    )
+                  ],
                 ),
-                Container(
-                  padding: EdgeInsets.all(30.0),
-                  color: Colors.redAccent[100],
-                  child: Text("Infected today")
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        color: Colors.red[700],
+                        padding: EdgeInsets.all(30.0),
+                        child: Text("Fallen ill today")
+                      )
+                    ),
+                    Expanded(
+                      child: Container(
+                        color: Colors.red[600],
+                        padding: EdgeInsets.all(30.0),
+                        child: Text("Fallen ill at present")
+                      )
+                    )
+                  ],
                 ),
-                Container(
-                  padding: EdgeInsets.all(30.0),
-                  color: Colors.yellow[300],
-                  child: Text("Healed today")
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                        child: Container(
+                            color: Colors.cyan[700],
+                            padding: EdgeInsets.all(30.0),
+                            child: Text("Healed today")
+                        )
+                    ),
+                    Expanded(
+                        child: Container(
+                            color: Colors.cyan[500],
+                            padding: EdgeInsets.all(30.0),
+                            child: Text("Healed in total")
+                        )
+                    )
+                  ],
                 )
               ],
             ),
-            Column(
-              children: <Widget>[
-                Container(
-                  color: Colors.grey[600],
-                  padding: EdgeInsets.all(30.0),
-                  child: Text("Died in total")
-                ),
-                Container(
-                  padding: EdgeInsets.all(30.0),
-                  color: Colors.redAccent[100],
-                  child: Text("Infected in total")
-                ),
-                Container(
-                  padding: EdgeInsets.all(30.0),
-                  color: Colors.yellow[300],
-                  child: Text("Healed in total")
-                )
-              ],
-            )
-          ]
-      ),
     );
   }
 }
