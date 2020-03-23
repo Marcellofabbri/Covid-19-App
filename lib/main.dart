@@ -15,6 +15,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  List<Country> countryList = [
+    Country(nation: 'Italy'),
+    Country(nation: 'China'),
+    Country(nation: 'France'),
+    Country(nation: 'Spain'),
+    Country(nation: 'Germany')
+  ];
+
   String diedSoFar = 'LOADING';
 
   void setCountry() async {
