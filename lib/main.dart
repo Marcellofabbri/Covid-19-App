@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
+import 'package:covid19app/country.dart';
 
 void main() => runApp(MaterialApp(
-  home: Home(),
+  routes: {
+    '/': (context) => Home(),
+  }
 ));
 
 class Home extends StatefulWidget {
@@ -14,21 +15,23 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  void getData() async {
+  String diedSoFar = 'LOADING';
 
-    Response response = await get('https://coronavirus-monitor.p.rapidapi.com/coronavirus/latest_stat_by_country.php?country=Italy', headers: {"x-rapidapi-key": "558013d577mshda14e3082866bccp17df82jsncdc9b261bdcc"});
-    Map data = jsonDecode(response.body);
-    print(data['latest_stat_by_country'][0]);
-
+  void setCountry() async {
+    Country countryObject = Country(nation: 'Italy');
+    await countryObject.getData();
+    setState(() {
+      diedSoFar = countryObject.diedSoFar;
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    getData();
+    setCountry();
   }
 
-  @override //redefines the build method otherwise inherited from StatelessWidget
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -50,6 +53,18 @@ class _HomeState extends State<Home> {
                   children: <Widget>[
                     Expanded(
                       child: Container(
+                        padding: EdgeInsets.fromLTRB(0, 30.0, 0, 30.0),
+                        color: Colors.amberAccent,
+                        child:
+                          Text('Pick country'),
+                      ),
+                    )
+                  ]
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
                         color: Colors.grey[700],
                         padding: EdgeInsets.all(30.0),
                         child:
@@ -60,7 +75,7 @@ class _HomeState extends State<Home> {
                       child: Container(
                         color: Colors.grey[600],
                         padding: EdgeInsets.all(30.0),
-                        child: Text("Died so far")
+                        child: Text("Died so far: ${diedSoFar}")
                        )
                     )
                   ],
