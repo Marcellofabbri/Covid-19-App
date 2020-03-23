@@ -18,6 +18,7 @@ class _HomeState extends State<Home> {
 
     Response response = await get('https://coronavirus-monitor.p.rapidapi.com/coronavirus/latest_stat_by_country.php?country=Italy', headers: {"x-rapidapi-key": "558013d577mshda14e3082866bccp17df82jsncdc9b261bdcc"});
     Map data = jsonDecode(response.body);
+    print(data['latest_stat_by_country'][0]);
 
   }
 
