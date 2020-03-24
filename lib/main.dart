@@ -32,8 +32,8 @@ class _HomeState extends State<Home> {
   String illToday = 'LOADING';
   String tally = 'LOADING';
 
-  void setCountry() async {
-    Country countryObject = Country(nation: 'Italy');
+  void setCountry( {index = 0}) async {
+    Country countryObject = countryList[0];
     await countryObject.getDataLatestStatByCountry();
     setState(() {
       diedSoFar = countryObject.diedSoFar;
@@ -91,9 +91,37 @@ class _HomeState extends State<Home> {
                                   children: new List.generate(countryList.length, (int index) {
                                     return new Card(
                                       color: Colors.amber[index * 100],
-                                      child: new Container(
-                                        height: 50.0,
-                                        child: new Text('${countryList[index].nation}'),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            alignment: AlignmentDirectional.centerEnd,
+                                            width: 30.0,
+                                            height: 30.0,
+                                            child: new RaisedButton(
+                                              onPressed: () {
+
+                                              },
+                                              color: Colors.red,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              )
+                                            ),
+                                          ),
+                                          new Container(
+                                            padding: EdgeInsets.fromLTRB(30.0, 0.0, 0.0, 0.0),
+                                            width: 100.0,
+                                          alignment: AlignmentDirectional.centerStart,
+                                          height: 50.0,
+                                          child: new Text('${countryList[index].nation}',
+                                              style: TextStyle(
+                                                fontFamily: 'YK',
+                                                color: Colors.orange[900],
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25.0,
+                                              )),
+                                        ),
+                                        ]
                                       ),
                                     );
                                   }),
