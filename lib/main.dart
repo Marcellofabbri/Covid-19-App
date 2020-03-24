@@ -26,6 +26,10 @@ class _HomeState extends State<Home> {
 
   String diedSoFar = 'LOADING';
   String diedToday = 'LOADING';
+  String illSoFar = 'LOADING';
+  String healedSoFar = 'LOADING';
+  String healedToday = 'LOADING';
+  String illToday = 'LOADING';
 
   void setCountry() async {
     Country countryObject = Country(nation: 'Italy');
@@ -33,6 +37,10 @@ class _HomeState extends State<Home> {
     setState(() {
       diedSoFar = countryObject.diedSoFar;
       diedToday = countryObject.diedToday;
+      illSoFar = countryObject.illSoFar;
+      illToday = countryObject.illToday;
+      healedSoFar = countryObject.healedSoFar;
+      healedToday = countryObject.healedToday;
     });
   }
 
@@ -137,18 +145,28 @@ class _HomeState extends State<Home> {
                       child: Container(
                         alignment: Alignment.center,
                         color: Colors.red[700],
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
                         width: 150.0,
-                        child: Text("Fallen ill today")
+                        child: Column(
+                          children: <Widget>[
+                            Text("Fallen ill today"),
+                            Text('$illToday')
+                          ],
+                        )
                       )
                     ),
                     Center(
                       child: Container(
                         alignment: Alignment.center,
                         color: Colors.red[600],
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
                         width: 150.0,
-                        child: Text("Fallen ill at present")
+                        child: Column(
+                          children: <Widget>[
+                            Text("Currently ill"),
+                            Text('$illSoFar')
+                          ],
+                        )
                       )
                     )
                   ],
@@ -160,18 +178,28 @@ class _HomeState extends State<Home> {
                         child: Container(
                             alignment: Alignment.center,
                             color: Colors.cyan[700],
-                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
                             width: 150.0,
-                            child: Text("Healed today")
+                            child: Column(
+                              children: <Widget>[
+                                Text("Healed today"),
+                                Text('$healedToday')
+                              ],
+                            )
                         )
                     ),
                     Center(
                         child: Container(
                             alignment: Alignment.center,
                             color: Colors.cyan[500],
-                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
                             width: 150.0,
-                            child: Text("Healed in total")
+                            child: Column(
+                              children: <Widget>[
+                                Text("Healed in total"),
+                                Text('$healedSoFar')
+                              ],
+                            )
                         )
                     )
                   ],
@@ -183,7 +211,7 @@ class _HomeState extends State<Home> {
                       child: Container(
                         color: Colors.green[800],
                         width: 330,
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
                         child: Text('Data updated at')
                       )
                     )
