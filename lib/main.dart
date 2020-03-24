@@ -60,14 +60,31 @@ class _HomeState extends State<Home> {
                 Row(
                   children: <Widget>[
                     Expanded(
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(0, 30.0, 0, 30.0),
-                        color: Colors.amberAccent,
-                        child:
-                          Text('Pick country'),
+                      child: SizedBox(
+                        height: 250.0,
+                        child: ListView(
+                          children: <Widget>[
+                            new Container(
+                              margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+                              height: 230.0,
+                              child: new ListView(
+                                scrollDirection: Axis.vertical,
+                                children: new List.generate(countryList.length, (int index) {
+                                  return new Card(
+                                    color: Colors.blue[index * 100],
+                                    child: new Container(
+                                      height: 50.0,
+                                      child: new Text('${countryList[index].nation}'),
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    )
-                  ]
+                    ),
+                  ],
                 ),
                 Row(
                   children: <Widget>[
