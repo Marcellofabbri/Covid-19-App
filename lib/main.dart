@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:covid19app/country.dart';
+import 'package:flutter/widgets.dart';
 
 void main() => runApp(MaterialApp(
   routes: {
@@ -71,7 +72,7 @@ class _HomeState extends State<Home> {
                                 scrollDirection: Axis.vertical,
                                 children: new List.generate(countryList.length, (int index) {
                                   return new Card(
-                                    color: Colors.blue[index * 100],
+                                    color: Colors.amber[index * 100],
                                     child: new Container(
                                       height: 50.0,
                                       child: new Text('${countryList[index].nation}'),
@@ -87,20 +88,25 @@ class _HomeState extends State<Home> {
                   ],
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Expanded(
+                    Center(
                       child: Container(
+                        alignment: Alignment.center,
                         color: Colors.grey[700],
-                        padding: EdgeInsets.all(30.0),
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                        width: 150.0,
                         child:
                           Text("Died today")
                       )
                     ),
-                    Expanded(
+                    Center(
                       child: Container(
+                        alignment: Alignment.center,
                         color: Colors.grey[600],
-                        padding: EdgeInsets.all(30.0),
-                        child: Text("Died so far: ${diedSoFar}")
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                        width: 150.0,
+                        child: Text("Died so far: $diedSoFar")
                        )
                     )
                   ],
