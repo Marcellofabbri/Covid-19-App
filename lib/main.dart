@@ -30,6 +30,7 @@ class _HomeState extends State<Home> {
   String healedSoFar = 'LOADING';
   String healedToday = 'LOADING';
   String illToday = 'LOADING';
+  String tally = 'LOADING';
 
   void setCountry() async {
     Country countryObject = Country(nation: 'Italy');
@@ -41,6 +42,7 @@ class _HomeState extends State<Home> {
       illToday = countryObject.illToday;
       healedSoFar = countryObject.healedSoFar;
       healedToday = countryObject.healedToday;
+      tally = countryObject.tally;
     });
   }
 
@@ -285,7 +287,7 @@ class _HomeState extends State<Home> {
                         width: 330,
                         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
                         child: Center(
-                          child: Text('50000 TOTAL CASES IN ${countryList[0].nation.toUpperCase()}',
+                          child: Text('$tally TOTAL CASES IN ${countryList[0].nation.toUpperCase()}',
                               style: TextStyle(
                                 fontFamily: 'YK',
                                 color: Colors.white,

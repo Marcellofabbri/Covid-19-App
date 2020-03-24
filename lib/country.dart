@@ -12,6 +12,7 @@ class Country {
   String healedUpToYesterday;
   String healedToday;
   String healedSoFar;
+  String tally;
 
   Country({ this.nation });
 
@@ -38,6 +39,7 @@ class Country {
     healedSoFar = dataToday['stat_by_country'][0]['total_recovered'];
     healedUpToYesterday = dataYesterday['stat_by_country'][0]['total_recovered'];
     healedToday = (int.parse(healedSoFar.replaceAll(new RegExp(r','), '')) - int.parse(healedUpToYesterday.replaceAll(new RegExp(r','), ''))).toString();
+    tally = dataToday['stat_by_country'][0]['total_cases'];
 
   }
 
