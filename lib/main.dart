@@ -56,6 +56,10 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         backgroundColor: Colors.orange[900]
       ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.purple,
+        child: Text('hello')
+      ),
       body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -64,25 +68,27 @@ class _HomeState extends State<Home> {
                     Expanded(
                       child: SizedBox(
                         height: 250.0,
-                        child: ListView(
-                          children: <Widget>[
-                            new Container(
-                              margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-                              height: 230.0,
-                              child: new ListView(
-                                scrollDirection: Axis.vertical,
-                                children: new List.generate(countryList.length, (int index) {
-                                  return new Card(
-                                    color: Colors.amber[index * 100],
-                                    child: new Container(
-                                      height: 50.0,
-                                      child: new Text('${countryList[index].nation}'),
-                                    ),
-                                  );
-                                }),
+                        child: Scrollbar(
+                          child: ListView(
+                            children: <Widget>[
+                              new Container(
+                                margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+                                height: 230.0,
+                                child: new ListView(
+                                  scrollDirection: Axis.vertical,
+                                  children: new List.generate(countryList.length, (int index) {
+                                    return new Card(
+                                      color: Colors.amber[index * 100],
+                                      child: new Container(
+                                        height: 50.0,
+                                        child: new Text('${countryList[index].nation}'),
+                                      ),
+                                    );
+                                  }),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
