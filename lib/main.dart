@@ -281,10 +281,18 @@ class _HomeState extends State<Home> {
                   children: <Widget>[
                     Center(
                       child: Container(
-                        color: Colors.green[800],
+                        color: Colors.orange[900],
                         width: 330,
                         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-                        child: Text('Data updated at')
+                        child: Center(
+                          child: Text('50000 TOTAL CASES IN ${countryList[0].nation.toUpperCase()}',
+                              style: TextStyle(
+                                fontFamily: 'YK',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25.0,
+                              )),
+                        )
                       )
                     )
                   ],
