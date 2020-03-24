@@ -119,11 +119,14 @@ class _HomeState extends State<Home> {
                                                 });
                                                 setCountry();
                                                 build(context);
-                                                print(index);
                                               },
                                               color: Colors.red,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(10.0),
+                                                side: BorderSide(
+                                                  color: index == selectedCountry ? Colors.orange[900] : Colors.white,
+                                                  width: index == selectedCountry ? 5.0 : 0.0,
+                                                )
                                               )
                                             ),
                                           ),
@@ -351,4 +354,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
