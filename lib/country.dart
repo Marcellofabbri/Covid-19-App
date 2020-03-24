@@ -13,6 +13,7 @@ class Country {
   String healedToday;
   String healedSoFar;
   String tally;
+  String timeStamp;
 
   Country({ this.nation });
 
@@ -25,7 +26,7 @@ class Country {
     //DateTime yesterday = DateTime.now()(date.year, date.month, date.day - 1);
     //String formattedDate = DateFormat('yyyy-MM-dd').format(today);
 
-    Response responseToday = await get('https://coronavirus-monitor.p.rapidapi.com/coronavirus/history_by_country_and_date.php?country=${this.nation}&date=2020-03-24', headers: {"x-rapidapi-key": "558013d577mshda14e3082866bccp17df82jsncdc9b261bdcc"});
+    Response responseToday = await get('https://coronavirus-monitor.p.rapidapi.com/coronavirus/history_by_country_and_date.php?country=${this.nation}&date=$today', headers: {"x-rapidapi-key": "558013d577mshda14e3082866bccp17df82jsncdc9b261bdcc"});
     Map dataToday = jsonDecode(responseToday.body);
     print(dataToday);
 
@@ -40,6 +41,7 @@ class Country {
     healedUpToYesterday = dataYesterday['stat_by_country'][0]['total_recovered'];
     healedToday = (int.parse(healedSoFar.replaceAll(new RegExp(r','), '')) - int.parse(healedUpToYesterday.replaceAll(new RegExp(r','), ''))).toString();
     tally = dataToday['stat_by_country'][0]['total_cases'];
+    timeStamp = dataToday['stat_by_country'][0]['record_date'].substring(0, 16);
 
   }
 

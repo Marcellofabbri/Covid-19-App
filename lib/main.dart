@@ -31,9 +31,11 @@ class _HomeState extends State<Home> {
   String healedToday = 'LOADING';
   String illToday = 'LOADING';
   String tally = 'LOADING';
+  int selectedCountry = 2;
+  String timeStamp = '...';
 
-  void setCountry( {index = 0}) async {
-    Country countryObject = countryList[0];
+  void setCountry() async {
+    Country countryObject = countryList[selectedCountry];
     await countryObject.getDataLatestStatByCountry();
     setState(() {
       diedSoFar = countryObject.diedSoFar;
@@ -43,12 +45,15 @@ class _HomeState extends State<Home> {
       healedSoFar = countryObject.healedSoFar;
       healedToday = countryObject.healedToday;
       tally = countryObject.tally;
+      selectedCountry = selectedCountry;
+      timeStamp = countryObject.timeStamp;
     });
   }
 
   @override
   void initState() {
     super.initState();
+    this.selectedCountry = 0;
     setCountry();
   }
 
@@ -70,7 +75,16 @@ class _HomeState extends State<Home> {
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.purple,
-        child: Text('hello')
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('RECORDS UPDATED AT $timeStamp',
+            style: TextStyle(
+              letterSpacing: 3.0,
+              fontFamily: 'YK',
+              fontSize: 20.0,
+              color: Colors.white
+            )),
+        )
       ),
       body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -100,7 +114,12 @@ class _HomeState extends State<Home> {
                                             height: 30.0,
                                             child: new RaisedButton(
                                               onPressed: () {
-
+                                                setState(() {
+                                                  selectedCountry = index;
+                                                });
+                                                setCountry();
+                                                build(context);
+                                                print(index);
                                               },
                                               color: Colors.red,
                                               shape: RoundedRectangleBorder(
@@ -315,7 +334,7 @@ class _HomeState extends State<Home> {
                         width: 330,
                         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
                         child: Center(
-                          child: Text('$tally TOTAL CASES IN ${countryList[0].nation.toUpperCase()}',
+                          child: Text('$tally TOTAL CASES IN ${countryList[selectedCountry].nation.toUpperCase()}',
                               style: TextStyle(
                                 fontFamily: 'YK',
                                 color: Colors.white,
