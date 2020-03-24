@@ -57,6 +57,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.orange[900]
       ),
       body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Row(
                   children: <Widget>[
@@ -154,6 +155,19 @@ class _HomeState extends State<Home> {
                             width: 150.0,
                             child: Text("Healed in total")
                         )
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        color: Colors.green[800],
+                        width: 330,
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                        child: Text('Data updated at')
+                      )
                     )
                   ],
                 )
