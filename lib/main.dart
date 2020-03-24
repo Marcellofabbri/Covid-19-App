@@ -111,13 +111,25 @@ class _HomeState extends State<Home> {
                       child: Container(
                         alignment: Alignment.center,
                         color: Colors.grey[700],
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-                        width: 150.0,
+                        padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
+                        width: 130.0,
                         child:
                           Column(
                             children: <Widget>[
-                              Text("Died today"),
-                              Text("$diedToday")
+                              Text("DIED TODAY",
+                                style: TextStyle(
+                                  fontFamily: 'YK',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25.0,
+                                )),
+                              Text("$diedToday",
+                                  style: TextStyle(
+                                    fontFamily: 'YK',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25.0,
+                                  ))
                             ],
                           )
                       )
@@ -126,12 +138,24 @@ class _HomeState extends State<Home> {
                       child: Container(
                         alignment: Alignment.center,
                         color: Colors.grey[600],
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-                        width: 150.0,
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10.0),
+                        width: 130.0,
                         child: Column(
                           children: <Widget>[
-                            Text("Died so far"),
-                            Text('$diedSoFar')
+                            Text("DIED SO FAR",
+                                style: TextStyle(
+                                  fontFamily: 'YK',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25.0,
+                                )),
+                            Text('$diedSoFar',
+                                style: TextStyle(
+                                  fontFamily: 'YK',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25.0,
+                                ))
                           ],
                         )
                        )
@@ -146,11 +170,23 @@ class _HomeState extends State<Home> {
                         alignment: Alignment.center,
                         color: Colors.red[700],
                         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-                        width: 150.0,
+                        width: 130.0,
                         child: Column(
                           children: <Widget>[
-                            Text("Fallen ill today"),
-                            Text('$illToday')
+                            Text("FALLEN ILL TODAY",
+                                style: TextStyle(
+                                  fontFamily: 'YK',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25.0,
+                                )),
+                            Text('$illToday',
+                                style: TextStyle(
+                                  fontFamily: 'YK',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25.0,
+                                ))
                           ],
                         )
                       )
@@ -160,11 +196,23 @@ class _HomeState extends State<Home> {
                         alignment: Alignment.center,
                         color: Colors.red[600],
                         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-                        width: 150.0,
+                        width: 130.0,
                         child: Column(
                           children: <Widget>[
-                            Text("Currently ill"),
-                            Text('$illSoFar')
+                            Text("CURRENTLY ILL",
+                                style: TextStyle(
+                                  fontFamily: 'YK',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25.0,
+                                )),
+                            Text('$illSoFar',
+                                style: TextStyle(
+                                  fontFamily: 'YK',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25.0,
+                                ))
                           ],
                         )
                       )
@@ -179,11 +227,23 @@ class _HomeState extends State<Home> {
                             alignment: Alignment.center,
                             color: Colors.cyan[700],
                             padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-                            width: 150.0,
+                            width: 130.0,
                             child: Column(
                               children: <Widget>[
-                                Text("Healed today"),
-                                Text('$healedToday')
+                                Text("HEALED TODAY",
+                                    style: TextStyle(
+                                      fontFamily: 'YK',
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25.0,
+                                    )),
+                                Text('$healedToday',
+                                    style: TextStyle(
+                                      fontFamily: 'YK',
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25.0,
+                                    ))
                               ],
                             )
                         )
@@ -193,11 +253,23 @@ class _HomeState extends State<Home> {
                             alignment: Alignment.center,
                             color: Colors.cyan[500],
                             padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-                            width: 150.0,
+                            width: 130.0,
                             child: Column(
                               children: <Widget>[
-                                Text("Healed in total"),
-                                Text('$healedSoFar')
+                                Text("HEALED IN TOTAL",
+                                    style: TextStyle(
+                                      fontFamily: 'YK',
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25.0,
+                                    )),
+                                Text('$healedSoFar',
+                                    style: TextStyle(
+                                      fontFamily: 'YK',
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25.0,
+                                    ))
                               ],
                             )
                         )
