@@ -21,7 +21,9 @@ class _HomeState extends State<Home> {
     Country(nation: 'China'),
     Country(nation: 'France'),
     Country(nation: 'Spain'),
-    Country(nation: 'Germany')
+    Country(nation: 'Germany'),
+    Country(nation: 'UK'),
+    Country(nation: 'USA')
   ];
 
   String diedSoFar = 'LOADING';
@@ -104,32 +106,32 @@ class _HomeState extends State<Home> {
                                   scrollDirection: Axis.vertical,
                                   children: new List.generate(countryList.length, (int index) {
                                     return new Card(
-                                      color: Colors.amber[index * 100],
+                                      color: Colors.amber[100 + (index * 100)],
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
-                                          Container(
-                                            alignment: AlignmentDirectional.centerEnd,
-                                            width: 30.0,
-                                            height: 30.0,
-                                            child: new RaisedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  selectedCountry = index;
-                                                });
-                                                setCountry();
-                                                build(context);
-                                              },
-                                              color: Colors.red,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(10.0),
-                                                side: BorderSide(
-                                                  color: index == selectedCountry ? Colors.orange[900] : Colors.white,
-                                                  width: index == selectedCountry ? 5.0 : 0.0,
-                                                )
+                                      InkWell(
+                                      child: Container(
+                                          alignment: AlignmentDirectional.centerEnd,
+                                          width: 35.0,
+                                          height: 35.0,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: index == selectedCountry ? Colors.blue[600] : Colors.grey[600], width: index == selectedCountry ? 4.0 : 3.5),
+                                              borderRadius: BorderRadius.circular(12),
+                                              image: DecorationImage(
+                                                  image: AssetImage('assets/flags/${countryList[index].nation}.jpg'),
+                                                  fit: BoxFit.fill,
+                                              ),
                                               )
-                                            ),
                                           ),
+                                          onTap: () {
+                                            setState(() {
+                                              selectedCountry = index;
+                                            });
+                                            setCountry();
+                                            build(context);
+                                          }
+                                      ),
                                           new Container(
                                             padding: EdgeInsets.fromLTRB(30.0, 0.0, 0.0, 0.0),
                                             width: 100.0,
@@ -138,7 +140,7 @@ class _HomeState extends State<Home> {
                                           child: new Text('${countryList[index].nation}',
                                               style: TextStyle(
                                                 fontFamily: 'YK',
-                                                color: Colors.orange[900],
+                                                color: index == selectedCountry ? Colors.blue[600] : Colors.orange[900],
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 25.0,
                                               )),
