@@ -112,36 +112,46 @@ class _HomeState extends State<Home> {
                   ],
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Expanded(
+                    Center(
                       child: Container(
+                        alignment: Alignment.center,
                         color: Colors.red[700],
-                        padding: EdgeInsets.all(30.0),
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                        width: 150.0,
                         child: Text("Fallen ill today")
                       )
                     ),
-                    Expanded(
+                    Center(
                       child: Container(
+                        alignment: Alignment.center,
                         color: Colors.red[600],
-                        padding: EdgeInsets.all(30.0),
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                        width: 150.0,
                         child: Text("Fallen ill at present")
                       )
                     )
                   ],
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Expanded(
+                    Center(
                         child: Container(
+                            alignment: Alignment.center,
                             color: Colors.cyan[700],
-                            padding: EdgeInsets.all(30.0),
+                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                            width: 150.0,
                             child: Text("Healed today")
                         )
                     ),
-                    Expanded(
+                    Center(
                         child: Container(
+                            alignment: Alignment.center,
                             color: Colors.cyan[500],
-                            padding: EdgeInsets.all(30.0),
+                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                            width: 150.0,
                             child: Text("Healed in total")
                         )
                     )
