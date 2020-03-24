@@ -25,12 +25,14 @@ class _HomeState extends State<Home> {
   ];
 
   String diedSoFar = 'LOADING';
+  String diedToday = 'LOADING';
 
   void setCountry() async {
     Country countryObject = Country(nation: 'Italy');
-    await countryObject.getData();
+    await countryObject.getDataLatestStatByCountry();
     setState(() {
       diedSoFar = countryObject.diedSoFar;
+      diedToday = countryObject.diedToday;
     });
   }
 
@@ -72,7 +74,7 @@ class _HomeState extends State<Home> {
                           child: ListView(
                             children: <Widget>[
                               new Container(
-                                margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+                                margin: EdgeInsets.fromLTRB(33.0, 10.0, 33.0, 0.0),
                                 height: 230.0,
                                 child: new ListView(
                                   scrollDirection: Axis.vertical,
@@ -101,19 +103,29 @@ class _HomeState extends State<Home> {
                       child: Container(
                         alignment: Alignment.center,
                         color: Colors.grey[700],
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
                         width: 150.0,
                         child:
-                          Text("Died today")
+                          Column(
+                            children: <Widget>[
+                              Text("Died today"),
+                              Text("$diedToday")
+                            ],
+                          )
                       )
                     ),
                     Center(
                       child: Container(
                         alignment: Alignment.center,
                         color: Colors.grey[600],
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 30.0),
+                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
                         width: 150.0,
-                        child: Text("Died so far: $diedSoFar")
+                        child: Column(
+                          children: <Widget>[
+                            Text("Died so far"),
+                            Text('$diedSoFar')
+                          ],
+                        )
                        )
                     )
                   ],
