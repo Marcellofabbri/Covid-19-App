@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
           child: Text('RECORDS UPDATED AT $timeStamp',
             style: TextStyle(
               letterSpacing: 0.0,
-              fontFamily: 'MMD',
+              fontFamily: 'YK',
               fontSize: 20.0,
               color: Colors.white
             )),
