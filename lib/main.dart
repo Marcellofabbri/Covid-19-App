@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:covid19app/country.dart';
+import 'package:covid19app/loader.dart';
 import 'package:flutter/widgets.dart';
 
 void main() => runApp(MaterialApp(
@@ -16,47 +17,52 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  List<Country> countryList = [
-    Country(nation: 'Italy'),
-    Country(nation: 'China'),
-    Country(nation: 'France'),
-    Country(nation: 'Spain'),
-    Country(nation: 'Germany'),
-    Country(nation: 'UK'),
-    Country(nation: 'USA')
-  ];
+  List<Country> countryList = [];
+  int selectedCountry = 0;
+  Map dataToday;
 
-  String diedSoFar = 'LOADING';
-  String diedToday = 'LOADING';
-  String illSoFar = 'LOADING';
-  String healedSoFar = 'LOADING';
-  String healedToday = 'LOADING';
-  String illToday = 'LOADING';
-  String tally = 'LOADING';
-  int selectedCountry = 2;
-  String timeStamp = '...';
+  setCountry(index) {
+    selectedCountry = index;
+  }
 
-  void setCountry() async {
-    Country countryObject = countryList[selectedCountry];
-    await countryObject.getDataLatestStatByCountry();
-    setState(() {
-      diedSoFar = countryObject.diedSoFar;
-      diedToday = countryObject.diedToday;
-      illSoFar = countryObject.illSoFar;
-      illToday = countryObject.illToday;
-      healedSoFar = countryObject.healedSoFar;
-      healedToday = countryObject.healedToday;
-      tally = countryObject.tally;
-      selectedCountry = selectedCountry;
-      timeStamp = countryObject.timeStamp;
-    });
+  createCountryList() {
+    for (var i = 0; i < 200; i++) {
+      Country instanceOfCountry = Country(dataToday: dataToday, index: i);
+      countryList.add(instanceOfCountry);
+    }
+  }
+
+  populateCountryList(data) {
+    countryList = [];
+    for (int i = 0; i < 200; i++) {
+      Country instanceOfCountry = Country(dataToday: data, index: i);
+      instanceOfCountry.populate();
+      countryList.add(instanceOfCountry);
+    }
+    print(countryList[0].nation);
+  }
+
+  Future<Map> getData() async {
+    Loader loader = Loader();
+    await loader.retrieveFromApi();
+    return loader.dataToday;
   }
 
   @override
   void initState() {
     super.initState();
     this.selectedCountry = 0;
-    setCountry();
+    createCountryList();
+    loadUp();
+    Future.delayed(const Duration(milliseconds: 5000), () {
+      setState(() {
+        populateCountryList(dataToday);
+      });
+    });
+  }
+
+  Future loadUp() async {
+    dataToday = await getData();
   }
 
   @override
@@ -79,7 +85,7 @@ class _HomeState extends State<Home> {
         color: Colors.grey[900],
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text('RECORDS UPDATED AT $timeStamp',
+          child: Text('RECORDS UPDATED AT ${countryList[selectedCountry].timeStamp}',
             style: TextStyle(
               letterSpacing: 0.0,
               fontFamily: 'YK',
@@ -136,7 +142,6 @@ class _HomeState extends State<Home> {
                                               setState(() {
                                                 selectedCountry = index;
                                               });
-                                              setCountry();
                                               build(context);
                                             }
                                         ),
@@ -189,7 +194,7 @@ class _HomeState extends State<Home> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20.0,
                                   )),
-                                Text("$diedToday",
+                                Text("${countryList[selectedCountry].diedToday}",
                                     style: TextStyle(
                                       fontFamily: 'YK',
                                       color: Colors.white,
@@ -218,7 +223,7 @@ class _HomeState extends State<Home> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20.0,
                                   )),
-                              Text('$diedSoFar',
+                              Text('${countryList[selectedCountry].diedSoFar}',
                                   style: TextStyle(
                                     fontFamily: 'YK',
                                     color: Colors.white,
@@ -252,7 +257,7 @@ class _HomeState extends State<Home> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20.0,
                                   )),
-                              Text('$illToday',
+                              Text('${countryList[selectedCountry].illToday}',
                                   style: TextStyle(
                                     fontFamily: 'YK',
                                     color: Colors.white,
@@ -281,7 +286,7 @@ class _HomeState extends State<Home> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20.0,
                                   )),
-                              Text('$illSoFar',
+                              Text('${countryList[selectedCountry].illSoFar}',
                                   style: TextStyle(
                                     fontFamily: 'YK',
                                     color: Colors.white,
@@ -315,7 +320,7 @@ class _HomeState extends State<Home> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20.0,
                                       )),
-                                  Text('$healedToday',
+                                  Text('healed today',
                                       style: TextStyle(
                                         fontFamily: 'YK',
                                         color: Colors.white,
@@ -344,7 +349,7 @@ class _HomeState extends State<Home> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20.0,
                                       )),
-                                  Text('$healedSoFar',
+                                  Text('${countryList[selectedCountry].healedSoFar}',
                                       style: TextStyle(
                                         fontFamily: 'YK',
                                         color: Colors.white,
@@ -369,7 +374,7 @@ class _HomeState extends State<Home> {
                           width: 310,
                           padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
                           child: Center(
-                            child: Text('$tally TOTAL CASES IN ${countryList[selectedCountry].nation.toUpperCase()}',
+                            child: Text('${countryList[selectedCountry].tally} TOTAL CASES IN ${countryList[selectedCountry].nation.toUpperCase()}',
                                 style: TextStyle(
                                   fontFamily: 'YK',
                                   color: Colors.white,

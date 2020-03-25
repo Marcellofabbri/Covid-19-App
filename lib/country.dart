@@ -1,52 +1,29 @@
-import 'package:http/http.dart';
-import 'dart:convert';
-import 'package:jiffy/jiffy.dart';
+import 'package:covid19app/loader.dart';
 
 class Country {
+  
+  var dataToday = {};
+  int index;
+  String nation = 'LOADING';
+  String diedToday = 'LOADING';
+  String diedSoFar = 'LOADING';
+  String illToday = 'LOADING';
+  String illSoFar = 'LOADING';
+  String healedSoFar = 'LOADING';
+  String tally = 'LOADING';
+  String timeStamp = 'LOADING';
 
-  String nation;
-  String diedToday;
-  String diedSoFar;
-  String illToday;
-  String illSoFar;
-  String healedUpToYesterday;
-  String healedToday;
-  String healedSoFar;
-  String tally;
-  String timeStamp;
+  Country( {this.dataToday, this.index} );
 
-  Country({ this.nation });
-
-  Future<void> getDataLatestStatByCountry() async {
-
-    String today = Jiffy().format('yyyy-MM-dd');
-    print(today);
-    String yesterday = Jiffy().subtract(days: 1).toString().substring(0, 10);
-    print(yesterday);
-    //DateTime yesterday = DateTime.now()(date.year, date.month, date.day - 1);
-    //String formattedDate = DateFormat('yyyy-MM-dd').format(today);
-
-    Response responseToday = await get('https://coronavirus-monitor.p.rapidapi.com/coronavirus/history_by_country_and_date.php?country=${this.nation}&date=$today', headers: {"x-rapidapi-key": "558013d577mshda14e3082866bccp17df82jsncdc9b261bdcc"});
-    Map dataToday = jsonDecode(responseToday.body);
-
-    Response responseYesterday = await get('https://coronavirus-monitor.p.rapidapi.com/coronavirus/history_by_country_and_date.php?country=${this.nation}&date=$yesterday', headers: {"x-rapidapi-key": "558013d577mshda14e3082866bccp17df82jsncdc9b261bdcc"});
-    Map dataYesterday = jsonDecode(responseYesterday.body);
-
-//    Response responseTotal = await get('https://coronavirus-monitor.p.rapidapi.com/coronavirus', headers: {"x-rapidapi-key": "558013d577mshda14e3082866bccp17df82jsncdc9b261bdcc"});
-//    Map dataTotal = jsonDecode(responseTotal.body);
-//    print(dataTotal);
-
-
-    diedToday= dataToday['stat_by_country'][0]['new_deaths'];
-    diedSoFar = dataToday['stat_by_country'][0]['total_deaths'];
-    illToday = dataToday['stat_by_country'][0]['new_cases'];
-    illSoFar = dataToday['stat_by_country'][0]['active_cases'];
-    healedSoFar = dataToday['stat_by_country'][0]['total_recovered'];
-    healedUpToYesterday = dataYesterday['stat_by_country'][0]['total_recovered'];
-    healedToday = (int.parse(healedSoFar.replaceAll(new RegExp(r','), '')) - int.parse(healedUpToYesterday.replaceAll(new RegExp(r','), ''))).toString();
-    tally = dataToday['stat_by_country'][0]['total_cases'];
-    timeStamp = dataToday['stat_by_country'][0]['record_date'].substring(0, 16);
-
+  populate() {
+    nation = dataToday['response'][index]['country'].toString();
+    diedToday = dataToday['response'][index]['deaths']['new'].toString();
+    diedSoFar = dataToday['response'][index]['deaths']['total'].toString();
+    illToday = dataToday['response'][index]['cases']['new'].toString();
+    illSoFar = dataToday['response'][index]['cases']['active'].toString();
+    healedSoFar = dataToday['response'][index]['cases']['recovered'].toString();
+    tally = dataToday['response'][index]['cases']['total'].toString();
+    timeStamp = dataToday['response'][index]['time'].toString();
   }
 
 }
