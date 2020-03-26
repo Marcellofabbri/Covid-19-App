@@ -76,10 +76,10 @@ class _HomeState extends State<Home> {
 
   colorSetter(index) {
     switch(index) {
-      case 0: { return Colors.grey[900]; }
+      case 0: { return Colors.deepPurple[900]; }
       break;
 
-      case 1: { return Colors.grey[900]; }
+      case 1: { return Colors.deepPurple[900]; }
       break;
 
       case 2: { return Colors.red; }
@@ -120,7 +120,12 @@ class _HomeState extends State<Home> {
   }
 
   Future loadUp() async {
-    dataToday = await getData();
+    setState(() async {
+      populateCountryList(await getData());
+      propertySetter(1);
+      countryList.sort((country1, country2) => (country1.nation).compareTo(country2.nation));
+      countryList.forEach((country) => nameDebugger(country));
+    });
    }
 
   @override
@@ -129,12 +134,22 @@ class _HomeState extends State<Home> {
     this.selectedCountry = 0;
     createCountryList();
     loadUp();
-    Future.delayed(const Duration(milliseconds: 5000), () {
-      setState(() {
-        populateCountryList(dataToday);
-        propertySetter(1);
-      });
-    });
+//    Future.delayed(const Duration(milliseconds: 8000), () {
+//      setState(() {
+//        populateCountryList(dataToday);
+//        propertySetter(1);
+//        countryList.sort((country1, country2) => (country1.nation).compareTo(country2.nation));
+//        countryList.forEach((country) => nameDebugger(country));
+//      });
+//    });
+  }
+
+  nameDebugger(country) {
+    if (country.nation == 'Cura&ccedil;ao') {
+      country.nation = 'Curacao';
+    } else if (country.nation == 'R&eacute;union') {
+      country.nation = 'Reunion';
+    }
   }
 
   @override
@@ -191,47 +206,55 @@ class _HomeState extends State<Home> {
                                   child: new ListView(
                                     scrollDirection: Axis.vertical,
                                     children: new List.generate(countryList.length, (int index) {
-                                      return new Card(
-                                        color: Colors.brown[900].withOpacity(0.005 * index),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                        InkWell(
-                                        child: Container(
-                                            alignment: AlignmentDirectional.centerEnd,
-                                            width: 35.0,
-                                            height: 35.0,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(color: index == selectedCountry ? Colors.blue[600] : Colors.grey[600], width: index == selectedCountry ? 4.0 : 3.5),
-                                                borderRadius: BorderRadius.circular(12),
-                                                image: DecorationImage(
-                                                    image: AssetImage('assets/flags/${countryList[index].nation}.jpg'),
-                                                    fit: BoxFit.fill,
-                                                ),
-                                                )
-                                            ),
+                                      return Material(
+                                        color: Colors.transparent,
+                                        child: new Container(
+                                          margin: EdgeInsets.symmetric(vertical: 3, horizontal: 0),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(12),
+                                            color: Colors.blueGrey[900].withOpacity(0.5),
+                                            border: Border.all(color: index == selectedCountry ? Colors.blue[600].withOpacity(0.3) : Colors.blueGrey[900].withOpacity(0.0), width: index == selectedCountry ? 1.7 : 1.7),
+                                            //boxShadow: [BoxShadow(color: Colors.blue[600], blurRadius: 2, spreadRadius: 1, offset: Offset(2, 2))]
+                                          ),
+                                          child: InkWell(
                                             onTap: () {
                                               setState(() {
                                                 selectedCountry = index;
                                               });
                                               build(context);
-                                            }
-                                        ),
-                                            new Container(
-                                              padding: EdgeInsets.fromLTRB(35.0, 0.0, 0.0, 0.0),
-                                              width: 130.0,
-                                            alignment: AlignmentDirectional.centerStart,
-                                            height: 50.0,
-                                            child: new Text('${countryList[index].nation}',
-                                                style: TextStyle(
-                                                  fontFamily: 'YK',
-                                                  color: index == selectedCountry ? Colors.blue[600] : Colors.amberAccent[200],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 25.0,
-                                                  shadows: [Shadow(blurRadius: 15, color: Colors.brown, offset: Offset(2, 2))]
-                                                )),
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: <Widget>[
+                                              Container(
+                                                alignment: AlignmentDirectional.centerEnd,
+                                                width: 35.0,
+                                                height: 35.0,
+                                                child: Image.asset('assets/flags/${countryList[index].nation}.png',
+                                                  height: 35,
+                                                  width: 35),
+                                                  decoration: BoxDecoration(
+                                                    //border: Border.all(color: index == selectedCountry ? Colors.blue[600] : Colors.grey[600], width: index == selectedCountry ? 4.0 : 3.5),
+                                                    //borderRadius: BorderRadius.circular(12)
+                                                    ),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.fromLTRB(35.0, 0.0, 0.0, 0.0),
+                                                  width: 135.0,
+                                                  alignment: AlignmentDirectional.centerStart,
+                                                  height: 45.0,
+                                                  child: new Text('${countryList[index].nation}',
+                                                    style: TextStyle(
+                                                      fontFamily: 'YK',
+                                                      color: index == selectedCountry ? Colors.blue[600] : Colors.amberAccent[200],
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 25.0,
+                                                      shadows: [Shadow(blurRadius: 15, color: Colors.brown, offset: Offset(2, 2))]
+                                                    )),
+                                              ),
+                                              ]
+                                            ),
                                           ),
-                                          ]
                                         ),
                                       );
                                     }),
@@ -255,7 +278,7 @@ class _HomeState extends State<Home> {
                               decoration: BoxDecoration(
                                 border: Border.all(width: 1, color: Colors.blueGrey[900]),
                                 borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),
-                                color: Colors.blueAccent[700].withOpacity(0.15 + (0.05 * index)),
+                                color: Colors.blueGrey[900].withOpacity(0.30 + (0.08 * index)),
                               ),
                               margin: EdgeInsets.fromLTRB((index * 12.0), 0, 0, 0),
                               padding: EdgeInsets.fromLTRB(20, 5, 10, 5),
@@ -267,7 +290,8 @@ class _HomeState extends State<Home> {
                                   fontFamily: 'YK',
                                   fontWeight: FontWeight.bold,
                                   fontSize: 24,
-                                  color: Colors.grey[900]
+                                  color: Colors.grey[300],
+                                  shadows: [Shadow(blurRadius: 1, color: Colors.blueGrey[700], offset: Offset(2, 1))]
                                 )
                             )
                             ),
