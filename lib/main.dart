@@ -19,37 +19,81 @@ class _HomeState extends State<Home> {
 
   List<Country> countryList = [];
   int selectedCountry = 0;
+  Country selectedCountryInstance = Country();
   Map dataToday;
   List<Map> cardInfo = [
     {
-      'title' : 'DIED TODAY',
-      'number' : 5
+      'title' : 'DAILY DEATHS',
+      'property' : 'diedToday'
     },
     {
-      'title' : 'DIED IN TOTAL',
-      'number' : 5
+      'title' : 'DEATHS IN TOTAL',
+      'property' : 'diedSoFar'
     },
     {
-      'title' : 'FELL ILL TODAY',
-      'number' : 5
+      'title' : 'DAILY NEW CASES',
+      'property' : 'illToday'
     },
     {
       'title' : 'ILL AT THE MOMENT',
-      'number' : 5
+      'property' : 'illSoFar'
     },
     {
       'title' : 'RECOVERED SO FAR',
-      'number' : 5
+      'property' : 'healedSoFar'
     },
     {
-      'title' : 'TOTAL CASES IN SPAIN',
-      'number' :
-      5
+      'title' : 'CASES IN TOTAL',
+      'property' : 'tally'
     }
   ];
 
   setCountry(index) {
     selectedCountry = index;
+  }
+
+  propertySetter(index) {
+    switch(index) {
+      case 0: { return countryList[selectedCountry].diedToday; }
+      break;
+
+      case 1: { return countryList[selectedCountry].diedSoFar; }
+      break;
+
+      case 2: { return countryList[selectedCountry].illToday; }
+      break;
+
+      case 3: { return countryList[selectedCountry].illSoFar; }
+      break;
+
+      case 4: { return countryList[selectedCountry].healedSoFar; }
+      break;
+
+      case 5: { return countryList[selectedCountry].tally; }
+      break;
+    }
+  }
+
+  colorSetter(index) {
+    switch(index) {
+      case 0: { return Colors.grey[900]; }
+      break;
+
+      case 1: { return Colors.grey[900]; }
+      break;
+
+      case 2: { return Colors.red; }
+      break;
+
+      case 3: { return Colors.red; }
+      break;
+
+      case 4: { return Colors.green; }
+      break;
+
+      case 5: { return Colors.amber; }
+      break;
+    }
   }
 
   createCountryList() {
@@ -75,6 +119,10 @@ class _HomeState extends State<Home> {
     return loader.dataToday;
   }
 
+  Future loadUp() async {
+    dataToday = await getData();
+   }
+
   @override
   void initState() {
     super.initState();
@@ -84,12 +132,9 @@ class _HomeState extends State<Home> {
     Future.delayed(const Duration(milliseconds: 5000), () {
       setState(() {
         populateCountryList(dataToday);
+        propertySetter(1);
       });
     });
-  }
-
-  Future loadUp() async {
-    dataToday = await getData();
   }
 
   @override
@@ -207,18 +252,45 @@ class _HomeState extends State<Home> {
                         return Row(
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.fromLTRB((index * 15.0), 0, 0, 0),
-                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 40),
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 1, color: Colors.blueGrey[900]),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),
+                                color: Colors.blueAccent[700].withOpacity(0.15 + (0.05 * index)),
+                              ),
+                              margin: EdgeInsets.fromLTRB((index * 12.0), 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(20, 5, 10, 5),
                               alignment: AlignmentDirectional.center,
                               height: 49,
-                              color: Colors.black26,
-                              child: Text('DIED TODAY',
+                              width: 195,
+                              child: Text('${cardInfo[index]['title']}',
                                 style: TextStyle(
                                   fontFamily: 'YK',
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 25
+                                  fontSize: 24,
+                                  color: Colors.grey[900]
                                 )
                             )
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: colorSetter(index).withOpacity(0.3),
+                                border: Border.all(width: 1, color: Colors.blueGrey[900]),
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(10)),
+                              ),
+                              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                              alignment: AlignmentDirectional.center,
+                              height: 49,
+                              width: 87,
+                              child: Text('${propertySetter(index)}',
+                                style: TextStyle(
+                                  fontFamily: 'YK',
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 21,
+                                  color: Colors.amber[300],
+                                  shadows: [Shadow(blurRadius: 5, color: Colors.brown, offset: Offset(0, 0))]
+                                )
+                              )
                             )
                           ],
                         );

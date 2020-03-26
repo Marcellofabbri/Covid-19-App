@@ -69,6 +69,13 @@ flutter:
     - family: MMD
       fonts:
         - asset: fonts/MajorMonoDisplay-Regular.ttf
+    - family: PT
+      fonts:
+        - asset: fonts/PTSansNarrow-Bold.ttf
+        - asset: fonts/PTSansNarrow-Regular.ttf
+    - family: BT
+      fonts:
+        - asset: fonts/BalooThambi2-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
