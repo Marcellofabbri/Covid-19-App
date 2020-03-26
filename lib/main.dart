@@ -115,12 +115,12 @@ class _HomeState extends State<Home> {
                               children: <Widget>[
                                 new Container(
                                   margin: EdgeInsets.fromLTRB(33.0, 10.0, 33.0, 0.0),
-                                  height: 230.0,
+                                  height: 184.0,
                                   child: new ListView(
                                     scrollDirection: Axis.vertical,
                                     children: new List.generate(countryList.length, (int index) {
                                       return new Card(
-                                        color: Colors.brown[100 + (index * 100)],
+                                        color: Colors.brown[900].withOpacity(0.005 * index),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: <Widget>[
@@ -147,7 +147,7 @@ class _HomeState extends State<Home> {
                                         ),
                                             new Container(
                                               padding: EdgeInsets.fromLTRB(30.0, 0.0, 0.0, 0.0),
-                                              width: 100.0,
+                                              width: 130.0,
                                             alignment: AlignmentDirectional.centerStart,
                                             height: 50.0,
                                             child: new Text('${countryList[index].nation}',
