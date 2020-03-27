@@ -69,13 +69,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_keyboard_visibility:
-    dependency: transitive
+  flutter_spinkit:
+    dependency: "direct dev"
     description:
-      name: flutter_keyboard_visibility
+      name: flutter_spinkit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.0"
+    version: "4.1.2+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -158,13 +158,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-  search_widget:
-    dependency: "direct dev"
-    description:
-      name: search_widget
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -235,3 +228,4 @@ packages:
     version: "3.5.0"
 sdks:
   dart: ">=2.5.0 <3.0.0"
+  flutter: ">=0.1.4 <2.0.0"

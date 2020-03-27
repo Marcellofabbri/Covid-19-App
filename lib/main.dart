@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:covid19app/country.dart';
 import 'package:covid19app/loader.dart';
 import 'package:flutter/widgets.dart';
-import 'package:search_widget/search_widget.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 void main() => runApp(MaterialApp(
   routes: {
@@ -18,6 +18,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  var circleColor = Colors.lightBlueAccent;
   List<Country> countryList = [];
   int selectedCountry = 0;
   Country selectedCountryInstance = Country();
@@ -121,12 +122,23 @@ class _HomeState extends State<Home> {
   }
 
   Future loadUp() async {
+    setState(() {
+      circleColor = Colors.redAccent;
+    });
     setState(() async {
       populateCountryList(await getData());
       propertySetter(1);
       countryList.sort((country1, country2) => (country1.nation).compareTo(country2.nation));
       countryList.forEach((country) => nameDebugger(country));
+      print('AM I HERE NOW?');
+      setState(() {
+        circleColor = Colors.lightBlueAccent;
+      });
     });
+   }
+
+   loadingButtonColor() {
+    return circleColor;
    }
 
   @override
@@ -269,20 +281,26 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   Container(
-                    child: Row(
-                      children: <Widget>[
-                        RaisedButton(
-                            onPressed: () {}
-                        ),
-                        Container(
-
-                        )
-                      ],
-                    )
+                    margin: EdgeInsets.fromLTRB(35, 0, 255, 0),
+                    child: RaisedButton(
+                      color: Colors.blueGrey[700],
+                      onPressed: () { loadUp();
+                      build(context);},
+                      child: Row(
+                        children: <Widget>[
+                          SpinKitRotatingCircle(color: loadingButtonColor(), size: 20),
+                          Text('   Reload',
+                            style: TextStyle(
+                              color: Colors.amber[300]
+                            )
+                          )
+                        ],
+                      )
+                    ),
                   ),
                   Container(
                     height: 300,
-                    margin: EdgeInsets.fromLTRB(33, 40, 33, 0),
+                    margin: EdgeInsets.fromLTRB(33, 15, 33, 0),
                     child: ListView(
                       children: List.generate(6, (int index) {
                         return Row(
