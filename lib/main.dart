@@ -184,7 +184,7 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[900],
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(9.0),
           child: Text('RECORDS UPDATED AT ${countryList[selectedCountry].timeStamp}',
             style: TextStyle(
               letterSpacing: 0.0,
