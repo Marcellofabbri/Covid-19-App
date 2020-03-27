@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:covid19app/country.dart';
 import 'package:covid19app/loader.dart';
 import 'package:flutter/widgets.dart';
+import 'package:search_widget/search_widget.dart';
 
 void main() => runApp(MaterialApp(
   routes: {
@@ -268,11 +269,24 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   Container(
+                    child: Row(
+                      children: <Widget>[
+                        RaisedButton(
+                            onPressed: () {}
+                        ),
+                        Container(
+
+                        )
+                      ],
+                    )
+                  ),
+                  Container(
                     height: 300,
                     margin: EdgeInsets.fromLTRB(33, 40, 33, 0),
                     child: ListView(
                       children: List.generate(6, (int index) {
                         return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
                               decoration: BoxDecoration(
@@ -280,7 +294,7 @@ class _HomeState extends State<Home> {
                                 borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),
                                 color: Colors.blueGrey[900].withOpacity(0.30 + (0.08 * index)),
                               ),
-                              margin: EdgeInsets.fromLTRB((index * 12.0), 0, 0, 0),
+                              margin: EdgeInsets.fromLTRB((index * 0.0), 0, 0, 0),
                               padding: EdgeInsets.fromLTRB(20, 5, 10, 5),
                               alignment: AlignmentDirectional.center,
                               height: 49,
