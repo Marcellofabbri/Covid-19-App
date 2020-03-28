@@ -20,7 +20,8 @@ class _HomeState extends State<Home> {
 
   var circleColor;
   List<Country> countryList = [];
-  int selectedCountry = 0;
+  List<Country> countryListForDisplay = [];
+  int selectedCountry = 3;
   Country selectedCountryInstance = Country();
   Map dataToday;
   List<Map> cardInfo = [
@@ -130,6 +131,7 @@ class _HomeState extends State<Home> {
       propertySetter(1);
       countryList.sort((country1, country2) => (country1.nation).compareTo(country2.nation));
       countryList.forEach((country) => nameDebugger(country));
+      countryListForDisplay = countryList;
       print('AM I HERE NOW?');
       setState(() {
         circleColor = Container(child: Image.asset('assets/blue-circle-2.png'));
@@ -144,7 +146,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    this.selectedCountry = 0;
+    this.selectedCountry = 3;
     createCountryList();
     loadUp();
   }
@@ -155,6 +157,36 @@ class _HomeState extends State<Home> {
     } else if (country.nation == 'R&eacute;union') {
       country.nation = 'Reunion';
     }
+  }
+
+  searchBar() {
+    return Container(
+      child: TextField(
+        textAlign: TextAlign.justify,
+        style: TextStyle(
+            color: Colors.amberAccent,
+            fontFamily: 'YK',
+            fontSize: 25),
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.search, size: 40),
+          hintText: '  Search...',
+          hintStyle: TextStyle(
+            fontFamily: 'YK',
+            fontSize: 25,
+            color: Colors.amber[100],
+          )
+        ),
+        onChanged: (text) {
+          text = text.toLowerCase();
+          setState(() {
+            countryListForDisplay = countryList.where((country) {
+              var countryName = country.nation.toLowerCase();
+              return countryName.contains(text);
+            }).toList();
+          });
+        },
+      ),
+    );
   }
 
   @override
@@ -223,36 +255,36 @@ class _HomeState extends State<Home> {
 //          )
        ),
         child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
                       Expanded(
                         child: SizedBox(
-                          height: 200.0,
+                          height: 250.0,
                           child: Scrollbar(
                             child: ListView(
                               children: <Widget>[
                                 new Container(
                                   margin: EdgeInsets.fromLTRB(33.0, 10.0, 33.0, 0.0),
-                                  height: 184.0,
+                                  height: 237.0,
                                   child: new ListView(
                                     scrollDirection: Axis.vertical,
-                                    children: new List.generate(countryList.length, (int index) {
-                                      return Material(
+                                    children: new List.generate((countryListForDisplay.length+1), (int index) {
+                                      return index == 0 ? searchBar() : Material(
                                         color: Colors.transparent,
                                         child: new Container(
                                           margin: EdgeInsets.symmetric(vertical: 3, horizontal: 0),
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(12),
                                             color: Colors.blueGrey[900].withOpacity(0.5),
-                                            border: Border.all(color: index == selectedCountry ? Colors.blue[600].withOpacity(0.3) : Colors.blueGrey[900].withOpacity(0.0), width: index == selectedCountry ? 1.7 : 1.7),
+                                            border: Border.all(color: index-1 == selectedCountry ? Colors.blue[600].withOpacity(0.3) : Colors.blueGrey[900].withOpacity(0.0), width: index == selectedCountry ? 1.7 : 1.7),
                                             //boxShadow: [BoxShadow(color: Colors.blue[600], blurRadius: 2, spreadRadius: 1, offset: Offset(2, 2))]
                                           ),
                                           child: InkWell(
                                             onTap: () {
                                               setState(() {
-                                                selectedCountry = index;
+                                                selectedCountry = index-1;
                                               });
                                               build(context);
                                             },
@@ -263,7 +295,7 @@ class _HomeState extends State<Home> {
                                                 alignment: AlignmentDirectional.centerEnd,
                                                 width: 35.0,
                                                 height: 35.0,
-                                                child: Image.asset('assets/flags/${countryList[index].nation}.png',
+                                                child: Image.asset('assets/flags/${countryListForDisplay[index-1].nation}.png',
                                                   height: 35,
                                                   width: 35),
                                                   decoration: BoxDecoration(
@@ -275,11 +307,11 @@ class _HomeState extends State<Home> {
                                                   padding: EdgeInsets.fromLTRB(35.0, 0.0, 0.0, 0.0),
                                                   width: 135.0,
                                                   alignment: AlignmentDirectional.centerStart,
-                                                  height: 45.0,
-                                                  child: new Text('${countryList[index].nation}',
+                                                  height: 35.0,
+                                                  child: new Text('${countryListForDisplay[index-1].nation}',
                                                     style: TextStyle(
                                                       fontFamily: 'YK',
-                                                      color: index == selectedCountry ? Colors.blue[600] : Colors.amberAccent[200],
+                                                      color: index-1 == selectedCountry ? Colors.blue[600] : Colors.amberAccent[200],
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 25.0,
                                                       shadows: [Shadow(blurRadius: 15, color: Colors.brown, offset: Offset(2, 2))]
@@ -301,15 +333,8 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
-                    child: Row(
-                      children: <Widget>[
-                      ],
-                    ),
-                  ),
-                  Container(
                     height: 300,
-                    margin: EdgeInsets.fromLTRB(33, 15, 33, 0),
+                    margin: EdgeInsets.fromLTRB(33, 10, 33, 0),
                     child: ListView(
                       children: List.generate(6, (int index) {
                         return Row(
@@ -318,14 +343,14 @@ class _HomeState extends State<Home> {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(width: 1, color: Colors.blueGrey[900]),
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(6), bottomLeft: Radius.circular(6)),
                                 color: Colors.blueGrey[900].withOpacity(0.30 + (0.08 * index)),
                               ),
                               margin: EdgeInsets.fromLTRB((index * 0.0), 0, 0, 0),
-                              padding: EdgeInsets.fromLTRB(20, 5, 10, 5),
+                              padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
                               alignment: AlignmentDirectional.center,
-                              height: 49,
-                              width: 195,
+                              height: 45,
+                              width: 190,
                               child: Text('${cardInfo[index]['title']}',
                                 style: TextStyle(
                                   fontFamily: 'YK',
@@ -340,12 +365,12 @@ class _HomeState extends State<Home> {
                               decoration: BoxDecoration(
                                 color: colorSetter(index).withOpacity(0.3),
                                 border: Border.all(width: 1, color: Colors.blueGrey[900]),
-                                borderRadius: BorderRadius.only(topRight: Radius.circular(10)),
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(6), bottomRight: Radius.circular(6)),
                               ),
-                              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                               alignment: AlignmentDirectional.center,
-                              height: 49,
-                              width: 87,
+                              height: 45,
+                              width: 80,
                               child: Text('${propertySetter(index)}',
                                 style: TextStyle(
                                   fontFamily: 'YK',
