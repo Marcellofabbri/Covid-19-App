@@ -208,11 +208,11 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[900],
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text('Updated: ${countryList[selectedCountry].timeStamp}',
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+              child: Text('Updated: ${countryList[selectedCountry].timeStamp.replaceFirst(RegExp('T'), ' | ').substring(0, 18) + ' GMT'}',
                 style: TextStyle(
                   letterSpacing: 0.0,
                   fontFamily: 'YK',
