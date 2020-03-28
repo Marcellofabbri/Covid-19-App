@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  var circleColor = Colors.lightBlueAccent;
+  var circleColor;
   List<Country> countryList = [];
   int selectedCountry = 0;
   Country selectedCountryInstance = Country();
@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
 
   Future loadUp() async {
     setState(() {
-      circleColor = Colors.redAccent;
+      circleColor = SpinKitRotatingCircle(color: Colors.red, size: 18);
     });
     setState(() async {
       populateCountryList(await getData());
@@ -132,7 +132,7 @@ class _HomeState extends State<Home> {
       countryList.forEach((country) => nameDebugger(country));
       print('AM I HERE NOW?');
       setState(() {
-        circleColor = Colors.lightBlueAccent;
+        circleColor = Container(child: Image.asset('assets/blue-circle-2.png'));
       });
     });
    }
@@ -147,14 +147,6 @@ class _HomeState extends State<Home> {
     this.selectedCountry = 0;
     createCountryList();
     loadUp();
-//    Future.delayed(const Duration(milliseconds: 8000), () {
-//      setState(() {
-//        populateCountryList(dataToday);
-//        propertySetter(1);
-//        countryList.sort((country1, country2) => (country1.nation).compareTo(country2.nation));
-//        countryList.forEach((country) => nameDebugger(country));
-//      });
-//    });
   }
 
   nameDebugger(country) {
@@ -183,15 +175,43 @@ class _HomeState extends State<Home> {
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[900],
-        child: Padding(
-          padding: const EdgeInsets.all(9.0),
-          child: Text('RECORDS UPDATED AT ${countryList[selectedCountry].timeStamp}',
-            style: TextStyle(
-              letterSpacing: 0.0,
-              fontFamily: 'YK',
-              fontSize: 20.0,
-              color: Colors.white
-            )),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text('Updated: ${countryList[selectedCountry].timeStamp}',
+                style: TextStyle(
+                  letterSpacing: 0.0,
+                  fontFamily: 'YK',
+                  fontSize: 18.0,
+                  color: Colors.white
+                )),
+            ),
+            Container(
+              width: 100,
+              height: 25,
+              child: RaisedButton(
+                  color: Colors.blueGrey[700],
+                  onPressed: () { loadUp();
+                  build(context);},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        width: 20,
+                        child: loadingButtonColor()
+                      ),
+                      Text('Reload',
+                          style: TextStyle(
+                              color: Colors.amber[300]
+                          )
+                      )
+                    ],
+                  )
+              ),
+            ),
+          ],
         )
       ),
       body: Container(
@@ -281,21 +301,10 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(35, 0, 255, 0),
-                    child: RaisedButton(
-                      color: Colors.blueGrey[700],
-                      onPressed: () { loadUp();
-                      build(context);},
-                      child: Row(
-                        children: <Widget>[
-                          SpinKitRotatingCircle(color: loadingButtonColor(), size: 20),
-                          Text('   Reload',
-                            style: TextStyle(
-                              color: Colors.amber[300]
-                            )
-                          )
-                        ],
-                      )
+                    margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
+                    child: Row(
+                      children: <Widget>[
+                      ],
                     ),
                   ),
                   Container(
@@ -353,220 +362,6 @@ class _HomeState extends State<Home> {
                       })
                     ),
                   ),
-//                  Row(
-//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                    children: <Widget>[
-//                      Center(
-//                        child: Container(
-//                          decoration: BoxDecoration(
-//                            borderRadius: BorderRadius.circular(10),
-//                            color: Colors.grey[900]
-//                          ),
-//                          alignment: Alignment.center,
-//                          padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
-//                          width: 130.0,
-//                          child:
-//                            Column(
-//                              children: <Widget>[
-//                                Text("DIED TODAY",
-//                                  style: TextStyle(
-//                                    fontFamily: 'YK',
-//                                    color: Colors.white,
-//                                    fontWeight: FontWeight.bold,
-//                                    fontSize: 20.0,
-//                                  )),
-//                                Text("${countryList[selectedCountry].diedToday}",
-//                                    style: TextStyle(
-//                                      fontFamily: 'YK',
-//                                      color: Colors.white,
-//                                      fontWeight: FontWeight.bold,
-//                                      fontSize: 25.0,
-//                                    ))
-//                              ],
-//                            )
-//                        )
-//                      ),
-//                      Center(
-//                        child: Container(
-//                          alignment: Alignment.center,
-//                          decoration: BoxDecoration(
-//                            color: Colors.grey[700],
-//                            borderRadius: BorderRadius.circular(10)
-//                          ),
-//                          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10.0),
-//                          width: 130.0,
-//                          child: Column(
-//                            children: <Widget>[
-//                              Text("DIED SO FAR",
-//                                  style: TextStyle(
-//                                    fontFamily: 'YK',
-//                                    color: Colors.white,
-//                                    fontWeight: FontWeight.bold,
-//                                    fontSize: 20.0,
-//                                  )),
-//                              Text('${countryList[selectedCountry].diedSoFar}',
-//                                  style: TextStyle(
-//                                    fontFamily: 'YK',
-//                                    color: Colors.white,
-//                                    fontWeight: FontWeight.bold,
-//                                    fontSize: 25.0,
-//                                  ))
-//                            ],
-//                          )
-//                         )
-//                      )
-//                    ],
-//                  ),
-//                  Row(
-//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                    children: <Widget>[
-//                      Center(
-//                        child: Container(
-//                          decoration: BoxDecoration(
-//                            borderRadius: BorderRadius.circular(10),
-//                            color: Colors.deepOrange[900]
-//                          ),
-//                          alignment: Alignment.center,
-//                          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-//                          width: 130.0,
-//                          child: Column(
-//                            children: <Widget>[
-//                              Text("FALLEN ILL TODAY",
-//                                  style: TextStyle(
-//                                    fontFamily: 'YK',
-//                                    color: Colors.white,
-//                                    fontWeight: FontWeight.bold,
-//                                    fontSize: 20.0,
-//                                  )),
-//                              Text('${countryList[selectedCountry].illToday}',
-//                                  style: TextStyle(
-//                                    fontFamily: 'YK',
-//                                    color: Colors.white,
-//                                    fontWeight: FontWeight.bold,
-//                                    fontSize: 25.0,
-//                                  ))
-//                            ],
-//                          )
-//                        )
-//                      ),
-//                      Center(
-//                        child: Container(
-//                          decoration: BoxDecoration(
-//                            borderRadius: BorderRadius.circular(10),
-//                            color: Colors.deepOrange[700]
-//                          ),
-//                          alignment: Alignment.center,
-//                          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-//                          width: 130.0,
-//                          child: Column(
-//                            children: <Widget>[
-//                              Text("CURRENTLY ILL",
-//                                  style: TextStyle(
-//                                    fontFamily: 'YK',
-//                                    color: Colors.white,
-//                                    fontWeight: FontWeight.bold,
-//                                    fontSize: 20.0,
-//                                  )),
-//                              Text('${countryList[selectedCountry].illSoFar}',
-//                                  style: TextStyle(
-//                                    fontFamily: 'YK',
-//                                    color: Colors.white,
-//                                    fontWeight: FontWeight.bold,
-//                                    fontSize: 25.0,
-//                                  ))
-//                            ],
-//                          )
-//                        )
-//                      )
-//                    ],
-//                  ),
-//                  Row(
-//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                    children: <Widget>[
-//                      Center(
-//                          child: Container(
-//                              decoration: BoxDecoration(
-//                                borderRadius: BorderRadius.circular(10),
-//                                color: Colors.lightGreen[800]
-//                              ),
-//                              alignment: Alignment.center,
-//                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-//                              width: 130.0,
-//                              child: Column(
-//                                children: <Widget>[
-//                                  Text("HEALED TODAY",
-//                                      style: TextStyle(
-//                                        fontFamily: 'YK',
-//                                        color: Colors.white,
-//                                        fontWeight: FontWeight.bold,
-//                                        fontSize: 20.0,
-//                                      )),
-//                                  Text('healed today',
-//                                      style: TextStyle(
-//                                        fontFamily: 'YK',
-//                                        color: Colors.white,
-//                                        fontWeight: FontWeight.bold,
-//                                        fontSize: 25.0,
-//                                      ))
-//                                ],
-//                              )
-//                          )
-//                      ),
-//                      Center(
-//                          child: Container(
-//                              decoration: BoxDecoration(
-//                                color: Colors.lightGreen[600],
-//                                borderRadius: BorderRadius.circular(10)
-//                              ),
-//                              alignment: Alignment.center,
-//                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-//                              width: 130.0,
-//                              child: Column(
-//                                children: <Widget>[
-//                                  Text("HEALED IN TOTAL",
-//                                      style: TextStyle(
-//                                        fontFamily: 'YK',
-//                                        color: Colors.white,
-//                                        fontWeight: FontWeight.bold,
-//                                        fontSize: 20.0,
-//                                      )),
-//                                  Text('${countryList[selectedCountry].healedSoFar}',
-//                                      style: TextStyle(
-//                                        fontFamily: 'YK',
-//                                        color: Colors.white,
-//                                        fontWeight: FontWeight.bold,
-//                                        fontSize: 25.0,
-//                                      ))
-//                                ],
-//                              )
-//                          )
-//                      )
-//                    ],
-//                  ),
-//                  Row(
-//                    mainAxisAlignment: MainAxisAlignment.center,
-//                    children: <Widget>[
-//                      Center(
-//                        child: Container(
-//                          decoration: BoxDecoration(
-//                            color: Colors.brown[500],
-//                            borderRadius: BorderRadius.circular(10)
-//                          ),
-//                          width: 310,
-//                          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-//                          child: Center(
-//                            child: Text('${countryList[selectedCountry].tally} TOTAL CASES IN ${countryList[selectedCountry].nation.toUpperCase()}',
-//                                style: TextStyle(
-//                                  fontFamily: 'YK',
-//                                  color: Colors.white,
-//                                  fontWeight: FontWeight.bold,
-//                                  fontSize: 24.0,
-//                                )),
-//                          )
-//                        )
-//                      )
-//                    ],
-//                  )
                 ],
               ),
       ),
