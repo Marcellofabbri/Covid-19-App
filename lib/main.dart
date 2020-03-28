@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
 
   var circleColor;
   List<Country> countryList = [];
-  List<Country> countryListForDisplay = [];
+  List<Country> countryListForDisplay = [Country(), Country(), Country(), Country(), Country(), Country()];
   int selectedCountry = 3;
   Country selectedCountryInstance = Country();
   Map dataToday;
@@ -56,24 +56,46 @@ class _HomeState extends State<Home> {
   }
 
   propertySetter(index) {
-    switch(index) {
-      case 0: { return countryList[selectedCountry].diedToday; }
-      break;
+    if (countryListForDisplay.length == 0) {
+      return '';
+    } else {
+      switch(index) {
+        case 0:
+          {
+            return countryListForDisplay[selectedCountry].diedToday;
+          }
+          break;
 
-      case 1: { return countryList[selectedCountry].diedSoFar; }
-      break;
+        case 1:
+          {
+            return countryListForDisplay[selectedCountry].diedSoFar;
+          }
+          break;
 
-      case 2: { return countryList[selectedCountry].illToday; }
-      break;
+        case 2:
+          {
+            return countryListForDisplay[selectedCountry].illToday;
+          }
+          break;
 
-      case 3: { return countryList[selectedCountry].illSoFar; }
-      break;
+        case 3:
+          {
+            return countryListForDisplay[selectedCountry].illSoFar;
+          }
+          break;
 
-      case 4: { return countryList[selectedCountry].healedSoFar; }
-      break;
+        case 4:
+          {
+            return countryListForDisplay[selectedCountry].healedSoFar;
+          }
+          break;
 
-      case 5: { return countryList[selectedCountry].tally; }
-      break;
+        case 5:
+          {
+            return countryListForDisplay[selectedCountry].tally;
+          }
+          break;
+      }
     }
   }
 
@@ -113,7 +135,6 @@ class _HomeState extends State<Home> {
       instanceOfCountry.populate();
       countryList.add(instanceOfCountry);
     }
-    print(countryList[0].nation);
   }
 
   Future<Map> getData() async {
@@ -150,6 +171,14 @@ class _HomeState extends State<Home> {
     createCountryList();
     loadUp();
   }
+  
+  fontSizeDecider(index) {
+    if (countryListForDisplay[index-1].nation.length < 19) {
+      return 25.0;
+    } else {
+      return 20.0;
+    }
+  }
 
   nameDebugger(country) {
     if (country.nation == 'Cura&ccedil;ao') {
@@ -179,6 +208,7 @@ class _HomeState extends State<Home> {
         onChanged: (text) {
           text = text.toLowerCase();
           setState(() {
+            selectedCountry = 0;
             countryListForDisplay = countryList.where((country) {
               var countryName = country.nation.toLowerCase();
               return countryName.contains(text);
@@ -255,7 +285,7 @@ class _HomeState extends State<Home> {
 //          )
        ),
         child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
@@ -289,7 +319,7 @@ class _HomeState extends State<Home> {
                                               build(context);
                                             },
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: <Widget>[
                                               Container(
                                                 alignment: AlignmentDirectional.centerEnd,
@@ -304,8 +334,8 @@ class _HomeState extends State<Home> {
                                                     ),
                                                 ),
                                                 Container(
-                                                  padding: EdgeInsets.fromLTRB(35.0, 0.0, 0.0, 0.0),
-                                                  width: 135.0,
+                                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                                  width: 150.0,
                                                   alignment: AlignmentDirectional.centerStart,
                                                   height: 35.0,
                                                   child: new Text('${countryListForDisplay[index-1].nation}',
@@ -313,7 +343,7 @@ class _HomeState extends State<Home> {
                                                       fontFamily: 'YK',
                                                       color: index-1 == selectedCountry ? Colors.blue[600] : Colors.amberAccent[200],
                                                       fontWeight: FontWeight.bold,
-                                                      fontSize: 25.0,
+                                                      fontSize: fontSizeDecider(index),
                                                       shadows: [Shadow(blurRadius: 15, color: Colors.brown, offset: Offset(2, 2))]
                                                     )),
                                               ),
