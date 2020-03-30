@@ -4,6 +4,7 @@ import 'package:covid19app/country.dart';
 import 'package:covid19app/loader.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 
 void main() => runApp(MaterialApp(
   routes: {
@@ -21,7 +22,7 @@ class _HomeState extends State<Home> {
   var circleColor;
   List<Country> countryList = [];
   List<Country> countryListForDisplay = [Country(), Country(), Country(), Country(), Country(), Country()];
-  int selectedCountry = 3;
+  int selectedCountry = 0;
   Country selectedCountryInstance = Country();
   Map dataToday;
   List<Map> cardInfo = [
@@ -152,8 +153,10 @@ class _HomeState extends State<Home> {
       propertySetter(1);
       countryList.sort((country1, country2) => (country1.nation).compareTo(country2.nation));
       countryList.forEach((country) => nameDebugger(country));
+      Country world = countryList.removeAt(3);
+      countryList.insert(0, world);
       countryListForDisplay = countryList;
-      print('AM I HERE NOW?');
+
       setState(() {
         circleColor = Container(child: Image.asset('assets/blue-circle-2.png'));
       });
@@ -185,6 +188,8 @@ class _HomeState extends State<Home> {
       country.nation = 'Curacao';
     } else if (country.nation == 'R&eacute;union') {
       country.nation = 'Reunion';
+    } else if (country.nation == 'All') {
+      country.nation = 'World';
     }
   }
 
