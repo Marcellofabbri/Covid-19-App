@@ -176,7 +176,7 @@ class _HomeState extends State<Home> {
   }
   
   fontSizeDecider(index) {
-    if (countryListForDisplay[index-1].nation.length < 19) {
+    if (countryListForDisplay[index].nation.length < 19) {
       return 25.0;
     } else {
       return 20.0;
@@ -290,36 +290,40 @@ class _HomeState extends State<Home> {
 //          )
        ),
         child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 0, horizontal: 33),
+                    child: searchBar()
+                  ),
                   Row(
                     children: <Widget>[
                       Expanded(
                         child: SizedBox(
-                          height: 250.0,
+                          height: 140.0,
                           child: Scrollbar(
                             child: ListView(
                               children: <Widget>[
                                 new Container(
                                   margin: EdgeInsets.fromLTRB(33.0, 10.0, 33.0, 0.0),
-                                  height: 237.0,
+                                  height: 135.0,
                                   child: new ListView(
                                     scrollDirection: Axis.vertical,
-                                    children: new List.generate((countryListForDisplay.length+1), (int index) {
-                                      return index == 0 ? searchBar() : Material(
+                                    children: new List.generate((countryListForDisplay.length), (int index) {
+                                      return Material(
                                         color: Colors.transparent,
                                         child: new Container(
                                           margin: EdgeInsets.symmetric(vertical: 3, horizontal: 0),
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(12),
                                             color: Colors.blueGrey[900].withOpacity(0.5),
-                                            border: Border.all(color: index-1 == selectedCountry ? Colors.blue[600].withOpacity(0.3) : Colors.blueGrey[900].withOpacity(0.0), width: index == selectedCountry ? 1.7 : 1.7),
+                                            border: Border.all(color: index == selectedCountry ? Colors.blue[600].withOpacity(0.3) : Colors.blueGrey[900].withOpacity(0.0), width: index == selectedCountry ? 1.7 : 1.7),
                                             //boxShadow: [BoxShadow(color: Colors.blue[600], blurRadius: 2, spreadRadius: 1, offset: Offset(2, 2))]
                                           ),
                                           child: InkWell(
                                             onTap: () {
                                               setState(() {
-                                                selectedCountry = index-1;
+                                                selectedCountry = index;
                                               });
                                               build(context);
                                             },
@@ -330,7 +334,7 @@ class _HomeState extends State<Home> {
                                                 alignment: AlignmentDirectional.centerEnd,
                                                 width: 35.0,
                                                 height: 35.0,
-                                                child: Image.asset('assets/flags/${countryListForDisplay[index-1].nation}.png',
+                                                child: Image.asset('assets/flags/${countryListForDisplay[index].nation}.png',
                                                   height: 35,
                                                   width: 35),
                                                   decoration: BoxDecoration(
@@ -343,10 +347,10 @@ class _HomeState extends State<Home> {
                                                   width: 150.0,
                                                   alignment: AlignmentDirectional.centerStart,
                                                   height: 35.0,
-                                                  child: new Text('${countryListForDisplay[index-1].nation}',
+                                                  child: new Text('${countryListForDisplay[index].nation}',
                                                     style: TextStyle(
                                                       fontFamily: 'YK',
-                                                      color: index-1 == selectedCountry ? Colors.blue[600] : Colors.amberAccent[200],
+                                                      color: index == selectedCountry ? Colors.blue[600] : Colors.amberAccent[200],
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: fontSizeDecider(index),
                                                       shadows: [Shadow(blurRadius: 15, color: Colors.brown, offset: Offset(2, 2))]
@@ -368,8 +372,8 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   Container(
-                    height: 300,
-                    margin: EdgeInsets.fromLTRB(33, 10, 33, 0),
+                    height: 275,
+                    margin: EdgeInsets.fromLTRB(33, 0, 33, 0),
                     child: ListView(
                       children: List.generate(6, (int index) {
                         return Row(
