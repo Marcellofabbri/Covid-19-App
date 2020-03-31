@@ -9,6 +9,7 @@ import 'package:sticky_headers/sticky_headers.dart';
 void main() => runApp(MaterialApp(
   routes: {
     '/': (context) => Home(),
+    '/history': (context) => History(),
   }
 ));
 
@@ -283,11 +284,7 @@ class _HomeState extends State<Home> {
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.blueGrey[800],
-//          image: DecorationImage (
-//            image: AssetImage('assets/wallpapers/Arts1.jpg'),
-//            fit: BoxFit.fitWidth
-//          )
+          color: Colors.blueGrey[800]
        ),
         child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
