@@ -4,9 +4,10 @@ import 'package:covid19app/country.dart';
 import 'package:covid19app/loader.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:sticky_headers/sticky_headers.dart';
+import 'package:covid19app/history.dart';
 
 void main() => runApp(MaterialApp(
+  initialRoute: '/',
   routes: {
     '/': (context) => Home(),
     '/history': (context) => History(),
@@ -367,6 +368,15 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ],
+                  ),
+                  Container(
+                    child: FlatButton.icon(
+                      icon: Icon(Icons.description),
+                      label: Text("Country's Coronavirus history"),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/history');
+                      }
+                    )
                   ),
                   Container(
                     height: 275,
