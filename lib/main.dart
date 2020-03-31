@@ -27,6 +27,8 @@ class _HomeState extends State<Home> {
   int selectedCountry = 0;
   Country selectedCountryInstance = Country();
   Map dataToday;
+  Map historicData;
+  List selectedCountryHistory;
   List<Map> cardInfo = [
     {
       'title' : 'DAILY DEATHS',
@@ -146,12 +148,26 @@ class _HomeState extends State<Home> {
     return loader.dataToday;
   }
 
+  Future<Map> getHistoricData() async {
+    Loader loader = Loader();
+    await loader.retrieveHistoricData();
+    print(loader.historicData);
+    return loader.historicData;
+  }
+
+  addHistoricData() async {
+    setState(() async {
+      historicData = await getHistoricData();
+    });
+  }
+
   Future loadUp() async {
     setState(() {
       circleColor = SpinKitRotatingCircle(color: Colors.red, size: 18);
     });
     setState(() async {
       populateCountryList(await getData());
+      getHistoricData();
       propertySetter(1);
       countryList.sort((country1, country2) => (country1.nation).compareTo(country2.nation));
       countryList.forEach((country) => nameDebugger(country));
@@ -161,6 +177,10 @@ class _HomeState extends State<Home> {
 
       setState(() {
         circleColor = Container(child: Image.asset('assets/blue-circle-2.png'));
+      });
+
+      setState(() async {
+        historicData = await getHistoricData();
       });
     });
    }
@@ -172,9 +192,10 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    this.selectedCountry = 3;
+    this.selectedCountry = 0;
     createCountryList();
     loadUp();
+    print(historicData);
   }
   
   fontSizeDecider(index) {
@@ -192,6 +213,15 @@ class _HomeState extends State<Home> {
       country.nation = 'Reunion';
     } else if (country.nation == 'All') {
       country.nation = 'World';
+    }
+  }
+
+  selectedCountryHistoryUpdater() {
+    selectedCountryHistory = [];
+    for (var w = 0; w < historicData['records'].length; w++) {
+      if (historicData['records'][w]['countriesAndTerritories'] == countryListForDisplay[selectedCountry].nation) {
+        selectedCountryHistory.add(historicData['records'][w]);
+      }
     }
   }
 
@@ -323,6 +353,8 @@ class _HomeState extends State<Home> {
                                               setState(() {
                                                 selectedCountry = index;
                                               });
+                                              selectedCountryHistoryUpdater();
+                                              print(selectedCountryHistory);
                                               build(context);
                                             },
                                             child: Row(
@@ -372,9 +404,13 @@ class _HomeState extends State<Home> {
                   Container(
                     child: FlatButton.icon(
                       icon: Icon(Icons.description),
-                      label: Text("Country's Coronavirus history"),
+                      label: Text("${countryListForDisplay[selectedCountry].nation}'s Coronavirus history"),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/history');
+                        Navigator.pushNamed(
+                          context,
+                          '/history',
+                          arguments: ScreenArguments(countryListForDisplay[selectedCountry])
+                        );
                       }
                     )
                   ),

@@ -4,6 +4,7 @@ import 'dart:convert';
 class Loader {
 
   Map dataToday = {};
+  Map historicData = {};
 
   Loader();
 
@@ -15,6 +16,15 @@ class Loader {
 
     dataToday = jsonDecode(responseToday.body);
 
+  }
+
+  retrieveHistoricData() async {
+    Response responseHistoric = await get('https://opendata.ecdc.europa.eu/covid19/casedistribution/json/', headers: {
+      'Content-Type': 'application/json; charset=utf-8'
+    });
+    var body = responseHistoric.body;
+    body = body.substring(body.indexOf('{'));
+    historicData = jsonDecode(body);
   }
 
 }
