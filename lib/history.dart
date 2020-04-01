@@ -8,9 +8,9 @@ import 'package:bezier_chart/bezier_chart.dart';
 
 class ScreenArguments {
   final Country country;
-  dynamic countryHistory;
+  dynamic historicRecords;
 
-  ScreenArguments(this.country, this.countryHistory);
+  ScreenArguments(this.country, this.historicRecords);
 
 }
 
@@ -21,48 +21,23 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
 
-  dateparser(object) {
-    return object['year'] + object['dateRep'].substring(3, 5) + object['dateRep'].substring(0, 2);
-  }
-
-  horizontalAxis(countryHistory) {
-    var abscissa = [];
-    for (var m = 0; m < countryHistory.length; m++) {
-      var x = DateTime.parse(dateparser(countryHistory[m]));
-      abscissa.add(x);
+  dataPointsArrayBuilder(historicRecords) {
+    List<DataPoint> array = [];
+    for (var i = 0; i < historicRecords.length; i++) {
+      DataPoint newDataPoint = DataPoint<DateTime>(value: historicRecords[i].newCases, xAxis: historicRecords[i].recordedAt);
+      array.add(newDataPoint);
     }
-    return abscissa;
-  }
-
-  horizontalAxisLabel(countryHistory) {
-    var abscissa = [];
-    for (var m = 0; m < countryHistory.length; m++) {
-      var x = countryHistory[m]['dateRep'];
-      abscissa.add(x);
-    }
-    return abscissa;
-  }
-
-  mapper(countryHistory) {
-    var listOfPoints = [];
-    for (var m = 0; m < countryHistory.length; m++) {
-      var y = double.parse(countryHistory[m]['cases']);
-      var x = DateTime.parse(dateparser(countryHistory[m]));
-      var point = DataPoint<DateTime>(value: y, xAxis: x);
-      listOfPoints.add(point);
-    }
-    return listOfPoints;
+    return array;
   }
 
   @override
   Widget build(BuildContext context) {
 
     final ScreenArguments args = ModalRoute.of(context).settings.arguments;
-    final fromDate = DateTime(2019, 12, 19);
+    final fromDate = DateTime(2019, 12, 01);
     final toDate = DateTime.now();
 
-    final date1 = DateTime.now().subtract(Duration(days: 2));
-    final date2 = DateTime.now().subtract(Duration(days: 3));
+    List<DataPoint> dataPointsArray = dataPointsArrayBuilder(args.historicRecords);
 
     return Scaffold(
       appBar: AppBar(
@@ -104,10 +79,7 @@ class _HistoryState extends State<History> {
                       }
                       return 5.0;
                     },
-                    data: [
-                      DataPoint<DateTime>(value: 10, xAxis: date1),
-                      DataPoint<DateTime>(value: 50, xAxis: date2),
-                    ],
+                    data: dataPointsArray,
                   ),
                 ],
                 config: BezierChartConfig(

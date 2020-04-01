@@ -432,7 +432,7 @@ class _HomeState extends State<Home> {
                         Navigator.pushNamed(
                           context,
                           '/history',
-                          arguments: ScreenArguments(countryListForDisplay[selectedCountry], selectedCountryHistory)
+                          arguments: ScreenArguments(countryListForDisplay[selectedCountry], historicRecords)
                         );
                       }
                     )
