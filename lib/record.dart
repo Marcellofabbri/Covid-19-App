@@ -11,6 +11,6 @@ class Record {
   DateTime recordedAt;
   double newCases;
 
-  Record({this.recordedAt, this.newCases})
+  Record({this.recordedAt, this.newCases});
 
 }

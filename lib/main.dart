@@ -4,7 +4,9 @@ import 'package:covid19app/country.dart';
 import 'package:covid19app/loader.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:covid19app/history.dart';
+import 'package:covid19app/record.dart';
 
 void main() => runApp(MaterialApp(
   initialRoute: '/',
@@ -28,6 +30,7 @@ class _HomeState extends State<Home> {
   Country selectedCountryInstance = Country();
   Map dataToday;
   Map historicData;
+  List<Record> historicRecords;
   List selectedCountryHistory;
   List<Map> cardInfo = [
     {
@@ -58,6 +61,18 @@ class _HomeState extends State<Home> {
 
   setCountry(index) {
     selectedCountry = index;
+  }
+
+  populateHistoricRecords() {
+    for (var n = 0; n < historicData['records'].length; n++) {
+      String extrapolatedDate = historicData['records'][n]['dateRep'];
+      String formattedExtrapolatedDate = extrapolatedDate.substring(6, 10) + extrapolatedDate.substring(3, 5) + extrapolatedDate.substring(0, 2);
+      DateTime dateOfRecord = DateTime.parse(formattedExtrapolatedDate);
+      String extrapolatedNewCases = historicData['records'][n]['cases'];
+      double numberOfNewCases = double.parse(extrapolatedNewCases);
+      Record newRecord = Record(recordedAt: dateOfRecord, newCases: numberOfNewCases);
+      historicRecords.add(newRecord);
+    }
   }
 
   propertySetter(index) {
