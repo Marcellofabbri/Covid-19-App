@@ -68,7 +68,7 @@ class _HistoryState extends State<History> {
       var figureYesterday = historicRecords[historicRecords.length - i - 1].newCases.toInt();
       var trend = figureToday > figureYesterday ? 'increase' : 'decrease';
       Icon arrow = figureToday < figureYesterday ? Icon(Icons.arrow_downward, color: Colors.lightGreen[700]) : figureToday == figureYesterday ? Icon(Icons.arrow_forward) : Icon(Icons.arrow_upward, color: Colors.red);
-      double percentage = figureYesterday == 0 ? 0.0 : roundDouble(((figureToday / figureYesterday) - 1), 2);
+      double percentage = figureYesterday == 0 ? 0.0 : roundDouble(((figureToday / figureYesterday) - 1) * 100, 2);
       Row newRow = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -180,7 +180,7 @@ class _HistoryState extends State<History> {
               ),
               Container(
                 height: 40,
-                margin: EdgeInsets.fromLTRB(3, 5, 3, 0),
+                margin: EdgeInsets.fromLTRB(3, 20, 3, 0),
                 child: Text('${args.country.nation}',
                   style: TextStyle(
                     fontFamily: 'YK',
