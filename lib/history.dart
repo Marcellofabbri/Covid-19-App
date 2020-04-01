@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:bezier_chart/bezier_chart.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
 
 class ScreenArguments {
   final Country country;
@@ -23,6 +24,20 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
 
+  Row header = Row(
+    children: <Widget>[
+      Container(
+        child: Text('NEW CASES')
+      ),
+      Container(
+        child: Text('PERCENTAGE')
+      ),
+      Container(
+        child: Text('COMPARED TO YESTERDAY')
+      )
+    ],
+  );
+
   dataPointsArrayBuilder(historicRecords) {
     List<DataPoint> array = [];
     for (var i = 0; i < historicRecords.length; i++) {
@@ -30,6 +45,47 @@ class _HistoryState extends State<History> {
       array.add(newDataPoint);
     }
     return array;
+  }
+
+  double roundDouble(double value, int places){
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
+  rowsBuilder(historicRecords) {
+    List<Widget>rows = [header];
+    for (var i = 1; i < 6; i++) {
+      var date = historicRecords[historicRecords.length - i].recordedAt;
+      var figureToday = historicRecords[historicRecords.length - i].newCases.toInt();
+      var figureYesterday = historicRecords[historicRecords.length - i - 1].newCases.toInt();
+      var trend = figureToday > figureYesterday ? 'increase' : 'decrease';
+      double percentage = roundDouble(((figureToday / figureYesterday) - 1) * 100, 2);
+      Row newRow = Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Container(
+            child: Row(
+              children: <Widget>[
+                Container(
+                  child: Text('${date.toString().substring(0, 10)}: '),
+                ),
+                Container(
+                  child: Text('$figureToday')
+                )
+              ],
+            )
+          ),
+          Container(
+            child:Text('$percentage' + ' ' + '$trend')
+          ),
+          Container(
+            child: Text('Difference: ${figureToday - figureYesterday}')
+          )
+        ],
+      );
+      rows.add(newRow);
+    }
+    return rows;
   }
 
   @override
@@ -120,6 +176,11 @@ class _HistoryState extends State<History> {
               ),
             ),
           ),
+          Container(
+            child: Column(
+              children: rowsBuilder(args.historicRecords),
+            )
+          )
         ],
       )
     );
