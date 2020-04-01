@@ -150,10 +150,9 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
 
     final ScreenArguments args = ModalRoute.of(context).settings.arguments;
-    final fromDate = DateTime(2019, 12, 01);
-    final toDate = DateTime.now();
-
     List<DataPoint> dataPointsArray = dataPointsArrayBuilder(args.historicRecords);
+    final fromDate = DateTime(2019, 12, 01);
+    final toDate = dataPointsArray.last.xAxis.add(new Duration(days: 1));
 
     return Scaffold(
       backgroundColor: Colors.blueGrey[600],
@@ -172,16 +171,26 @@ class _HistoryState extends State<History> {
       ),
       body: Column(
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-            child: Text('${args.country.nation}',
-              style: TextStyle(
-                fontFamily: 'YK',
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: Colors.amber[400]
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 0, horizontal: 3),
+                height: 45,
+                child: Image.asset('assets/flags/${args.country.nation}.png')
               ),
-            )
+              Container(
+                margin: EdgeInsets.fromLTRB(3, 5, 3, 0),
+                child: Text('${args.country.nation}',
+                  style: TextStyle(
+                    fontFamily: 'YK',
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.amber[400]
+                  ),
+                )
+              ),
+            ],
           ),
           Container(
               margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -195,7 +204,7 @@ class _HistoryState extends State<History> {
               )
           ),
           Card(
-            margin: EdgeInsets.all(15),
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 35),
             elevation: 12,
             clipBehavior: Clip.hardEdge,
             child: Container(
@@ -285,6 +294,8 @@ class _HistoryState extends State<History> {
             child: Column(
               children: rowsBuilder(args.historicRecords),
             )
+          ),
+          Container(
           )
         ],
       )

@@ -279,6 +279,33 @@ class _HomeState extends State<Home> {
     );
   }
 
+  FlatButton epidemicTrendButton() {
+    if (populateHistoricRecords().isEmpty) {
+      print(populateHistoricRecords());
+      return FlatButton.icon(
+        label: Text('Epidemic trend not available'),
+        icon: Icon(Icons.do_not_disturb_alt, color: Colors.red, size: 20),
+        onPressed: () {},
+      );
+    } else {
+      return FlatButton.icon(
+          icon: Icon(Icons.assessment, color: Colors.lightGreen),
+          label: Text("${countryListForDisplay[selectedCountry].nation}'s epidemic trend",
+              style: TextStyle(
+                  color: Colors.white70
+              )
+          ),
+          onPressed: () {
+            Navigator.pushNamed(
+                context,
+                '/history',
+                arguments: ScreenArguments(countryListForDisplay[selectedCountry], historicRecords)
+            );
+          }
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -425,17 +452,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   Container(
-                    child: FlatButton.icon(
-                      icon: Icon(Icons.description),
-                      label: Text("${countryListForDisplay[selectedCountry].nation}'s Coronavirus history"),
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/history',
-                          arguments: ScreenArguments(countryListForDisplay[selectedCountry], historicRecords)
-                        );
-                      }
-                    )
+                    child: epidemicTrendButton()
                   ),
                   Container(
                     height: 275,
@@ -454,7 +471,7 @@ class _HomeState extends State<Home> {
                               margin: EdgeInsets.fromLTRB((index * 0.0), 0, 0, 0),
                               padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
                               alignment: AlignmentDirectional.center,
-                              height: 45,
+                              height: 40,
                               width: 190,
                               child: Text('${cardInfo[index]['title']}',
                                 style: TextStyle(
@@ -474,11 +491,10 @@ class _HomeState extends State<Home> {
                               ),
                               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                               alignment: AlignmentDirectional.center,
-                              height: 45,
+                              height: 40,
                               width: 80,
                               child: Text('${propertySetter(index)}',
                                 style: TextStyle(
-                                  fontFamily: 'YK',
                                   letterSpacing: 0,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 21,
