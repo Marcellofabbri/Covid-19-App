@@ -64,15 +64,22 @@ class _HomeState extends State<Home> {
   }
 
   populateHistoricRecords() {
+    historicRecords = [];
     for (var n = 0; n < historicData['records'].length; n++) {
-      String extrapolatedDate = historicData['records'][n]['dateRep'];
-      String formattedExtrapolatedDate = extrapolatedDate.substring(6, 10) + extrapolatedDate.substring(3, 5) + extrapolatedDate.substring(0, 2);
-      DateTime dateOfRecord = DateTime.parse(formattedExtrapolatedDate);
-      String extrapolatedNewCases = historicData['records'][n]['cases'];
-      double numberOfNewCases = double.parse(extrapolatedNewCases);
-      Record newRecord = Record(recordedAt: dateOfRecord, newCases: numberOfNewCases);
-      historicRecords.add(newRecord);
+      if (historicData['records'][n]['countriesAndTerritories'] == countryListForDisplay[selectedCountry].nation) {
+        String extrapolatedDate = historicData['records'][n]['dateRep'];
+        String formattedExtrapolatedDate = extrapolatedDate.substring(6, 10) +
+            extrapolatedDate.substring(3, 5) + extrapolatedDate.substring(0, 2);
+        DateTime dateOfRecord = DateTime.parse(formattedExtrapolatedDate);
+        String extrapolatedNewCases = historicData['records'][n]['cases'];
+        double numberOfNewCases = double.parse(extrapolatedNewCases);
+        Record newRecord = Record(
+            recordedAt: dateOfRecord, newCases: numberOfNewCases);
+        historicRecords.add(newRecord);
+      }
     }
+    historicRecords.sort((record1, record2) => (record1.recordedAt).compareTo(record2.recordedAt));
+    return historicRecords;
   }
 
   propertySetter(index) {
@@ -196,6 +203,7 @@ class _HomeState extends State<Home> {
 
       setState(() async {
         historicData = await getHistoricData();
+        historicRecords = populateHistoricRecords();
       });
     });
    }
@@ -367,9 +375,11 @@ class _HomeState extends State<Home> {
                                             onTap: () {
                                               setState(() {
                                                 selectedCountry = index;
+                                                populateHistoricRecords();
                                               });
                                               selectedCountryHistoryUpdater();
-                                              print(selectedCountryHistory);
+                                              print(historicRecords[0].newCases);
+                                              print(historicRecords[0].recordedAt);
                                               build(context);
                                             },
                                             child: Row(
@@ -383,8 +393,6 @@ class _HomeState extends State<Home> {
                                                   height: 35,
                                                   width: 35),
                                                   decoration: BoxDecoration(
-                                                    //border: Border.all(color: index == selectedCountry ? Colors.blue[600] : Colors.grey[600], width: index == selectedCountry ? 4.0 : 3.5),
-                                                    //borderRadius: BorderRadius.circular(12)
                                                     ),
                                                 ),
                                                 Container(
