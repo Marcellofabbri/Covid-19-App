@@ -64,13 +64,11 @@ class _HistoryState extends State<History> {
     List<Widget>rows = [];
     for (var i = 1; i < 6; i++) {
       var date = historicRecords[historicRecords.length - i].recordedAt;
-      var figureToday = historicRecords[historicRecords.length - i].newCases
-          .toInt();
-      var figureYesterday = historicRecords[historicRecords.length - i - 1]
-          .newCases.toInt();
+      var figureToday = historicRecords[historicRecords.length - i].newCases.toInt();
+      var figureYesterday = historicRecords[historicRecords.length - i - 1].newCases.toInt();
       var trend = figureToday > figureYesterday ? 'increase' : 'decrease';
       Icon arrow = figureToday < figureYesterday ? Icon(Icons.arrow_downward, color: Colors.lightGreen[700]) : figureToday == figureYesterday ? Icon(Icons.arrow_forward) : Icon(Icons.arrow_upward, color: Colors.red);
-      double percentage = roundDouble(((figureToday / figureYesterday) - 1) * 100, 2);
+      double percentage = figureYesterday == 0 ? 0.0 : roundDouble(((figureToday / figureYesterday) - 1), 2);
       Row newRow = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -116,7 +114,7 @@ class _HistoryState extends State<History> {
                   decoration: BoxDecoration(
                     color: Colors.grey[100 + (i*100)]
                   ),
-                  child: Text('$percentage' + '%',
+                  child: Text('${percentage == 0.0 ? 'N/A' : percentage}' + '%',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold
@@ -181,6 +179,7 @@ class _HistoryState extends State<History> {
                 child: Image.asset('assets/flags/${args.country.nation}.png')
               ),
               Container(
+                height: 40,
                 margin: EdgeInsets.fromLTRB(3, 5, 3, 0),
                 child: Text('${args.country.nation}',
                   style: TextStyle(
@@ -194,6 +193,7 @@ class _HistoryState extends State<History> {
             ],
           ),
           Container(
+              height: 17,
               margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Text('Long press to inspect the chart',
                 style: TextStyle(
@@ -205,11 +205,11 @@ class _HistoryState extends State<History> {
               )
           ),
           Card(
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 35),
+            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 35),
             elevation: 12,
             clipBehavior: Clip.hardEdge,
             child: Container(
-              height: MediaQuery.of(context).size.height / 2.6,
+              height: MediaQuery.of(context).size.height / 3,
               width: MediaQuery.of(context).size.width,
               child: BezierChart(
                 fromDate: fromDate,
@@ -288,6 +288,7 @@ class _HistoryState extends State<History> {
               )
           ),
           Container(
+            height: 200,
             margin: EdgeInsets.symmetric(vertical: 0, horizontal: 35),
             padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
             decoration: BoxDecoration(
@@ -296,8 +297,6 @@ class _HistoryState extends State<History> {
               children: rowsBuilder(args.historicRecords),
             )
           ),
-          Container(
-          )
         ],
       )
     );

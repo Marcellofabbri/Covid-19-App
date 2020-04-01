@@ -175,7 +175,6 @@ class _HomeState extends State<Home> {
   Future<Map> getHistoricData() async {
     Loader loader = Loader();
     await loader.retrieveHistoricData();
-    print(loader.historicData);
     return loader.historicData;
   }
 
@@ -282,7 +281,6 @@ class _HomeState extends State<Home> {
 
   FlatButton epidemicTrendButton() {
     if (populateHistoricRecords().isEmpty) {
-      print(populateHistoricRecords());
       return FlatButton.icon(
         label: Text('Epidemic trend not available'),
         icon: Icon(Icons.do_not_disturb_alt, color: Colors.red, size: 20),
