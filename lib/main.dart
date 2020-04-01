@@ -66,7 +66,9 @@ class _HomeState extends State<Home> {
   populateHistoricRecords() {
     historicRecords = [];
     for (var n = 0; n < historicData['records'].length; n++) {
-      if (historicData['records'][n]['countriesAndTerritories'] == countryListForDisplay[selectedCountry].nation) {
+      if (historicData['records'][n]['countriesAndTerritories'] == countryListForDisplay[selectedCountry].nation ||
+          historicData['records'][n]['countryterritoryCode'] == countryListForDisplay[selectedCountry].nation ||
+          historicData['records'][n]['geoId'] == countryListForDisplay[selectedCountry].nation) {
         String extrapolatedDate = historicData['records'][n]['dateRep'];
         String formattedExtrapolatedDate = extrapolatedDate.substring(6, 10) +
             extrapolatedDate.substring(3, 5) + extrapolatedDate.substring(0, 2);
@@ -218,7 +220,6 @@ class _HomeState extends State<Home> {
     this.selectedCountry = 0;
     createCountryList();
     loadUp();
-    print(historicData);
   }
   
   fontSizeDecider(index) {
@@ -405,8 +406,6 @@ class _HomeState extends State<Home> {
                                                 populateHistoricRecords();
                                               });
                                               selectedCountryHistoryUpdater();
-                                              print(historicRecords[0].newCases);
-                                              print(historicRecords[0].recordedAt);
                                               build(context);
                                             },
                                             child: Row(
@@ -492,9 +491,10 @@ class _HomeState extends State<Home> {
                               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                               alignment: AlignmentDirectional.center,
                               height: 40,
-                              width: 80,
+                              width: 90,
                               child: Text('${propertySetter(index)}',
                                 style: TextStyle(
+                                  fontFamily: 'YK',
                                   letterSpacing: 0,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 21,

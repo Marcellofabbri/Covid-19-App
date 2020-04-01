@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:bezier_chart/bezier_chart.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'dart:math';
 
 class ScreenArguments {
@@ -54,7 +55,7 @@ class _HistoryState extends State<History> {
     return array;
   }
 
-  double roundDouble(double value, int places){
+  double roundDouble(double value, int places) {
     double mod = pow(10.0, places);
     return ((value * mod).round().toDouble() / mod);
   }
@@ -84,7 +85,7 @@ class _HistoryState extends State<History> {
                 Container(
                   decoration: BoxDecoration(
                   ),
-                  child: Text(' ${date.toString().substring(0, 10)}: '),
+                  child: Text(' ${Jiffy(date).format("MMM dd")}: '),
                 ),
                 Container(
                   decoration: BoxDecoration(
