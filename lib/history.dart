@@ -27,9 +27,16 @@ class _HistoryState extends State<History> {
   Row header = Row(
     children: <Widget>[
       Container(
+        height: 35,
+        decoration: BoxDecoration(
+          color: Colors.yellow,
+        ),
         child: Text('NEW CASES')
       ),
       Container(
+        decoration: BoxDecoration(
+          color: Colors.red
+        ),
         child: Text('PERCENTAGE')
       ),
       Container(
@@ -53,7 +60,7 @@ class _HistoryState extends State<History> {
   }
 
   rowsBuilder(historicRecords) {
-    List<Widget>rows = [header];
+    List<Widget>rows = [];
     for (var i = 1; i < 6; i++) {
       var date = historicRecords[historicRecords.length - i].recordedAt;
       var figureToday = historicRecords[historicRecords.length - i].newCases.toInt();
@@ -64,21 +71,42 @@ class _HistoryState extends State<History> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Container(
+            height: 30,
+            width: 115,
+            decoration: BoxDecoration(
+              color: Colors.grey[100 + (i*100)]
+            ),
             child: Row(
               children: <Widget>[
                 Container(
+                  decoration: BoxDecoration(
+                  ),
                   child: Text('${date.toString().substring(0, 10)}: '),
                 ),
                 Container(
+                  decoration: BoxDecoration(
+                  ),
                   child: Text('$figureToday')
                 )
               ],
             )
           ),
           Container(
+            alignment: Alignment.center,
+            height: 30,
+            width: 105,
+            decoration: BoxDecoration(
+                color: Colors.grey[100 + (i*100)]
+            ),
             child:Text('$percentage' + ' ' + '$trend')
           ),
           Container(
+            alignment: Alignment.center,
+            height: 30,
+            width: 120,
+            decoration: BoxDecoration(
+                color: Colors.grey[100 + (i*100)]
+            ),
             child: Text('Difference: ${figureToday - figureYesterday}')
           )
         ],
@@ -115,7 +143,7 @@ class _HistoryState extends State<History> {
       body: Column(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+            margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
             child: Text('${args.country.nation}',
               style: TextStyle(
                 fontFamily: 'YK',
@@ -126,7 +154,7 @@ class _HistoryState extends State<History> {
             )
           ),
           Container(
-              margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Text('Long press to inspect the chart',
                 style: TextStyle(
                     fontFamily: 'YK',
@@ -141,7 +169,7 @@ class _HistoryState extends State<History> {
             elevation: 12,
             clipBehavior: Clip.hardEdge,
             child: Container(
-              height: MediaQuery.of(context).size.height / 2.5,
+              height: MediaQuery.of(context).size.height / 2.6,
               width: MediaQuery.of(context).size.width,
               child: BezierChart(
                 fromDate: fromDate,
@@ -165,18 +193,62 @@ class _HistoryState extends State<History> {
                 ],
                 config: BezierChartConfig(
                   displayYAxis: false,
+                  displayLinesXAxis: true,
                   verticalIndicatorStrokeWidth: 3.0,
                   verticalIndicatorColor: Colors.red,
                   showVerticalIndicator: true,
                   verticalIndicatorFixedPosition: false,
                   backgroundColor: Colors.deepPurple[900],
-                  footerHeight: 30.0,
+                  footerHeight: 45.0,
                   snap: false
                 ),
               ),
             ),
           ),
           Container(
+              margin: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                      alignment: Alignment.center,
+                      height: 35,
+                      width: 115,
+                      decoration: BoxDecoration(
+                        color: Colors.yellow,
+                      ),
+                      child: Text('NEW CASES')
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 35,
+                    width: 105,
+                    decoration: BoxDecoration(
+                      color: Colors.orange
+                    ),
+                    child: Text('PERCENTAGE')
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 35,
+                    width: 120,
+                    decoration: BoxDecoration(
+                      color: Colors.red
+                    ),
+                      child: Text('vs. PREVIOUS DAY',
+                      style: TextStyle(
+                      ))
+                  )
+                ],
+              )
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+            decoration: BoxDecoration(
+              border: Border.all()
+            ),
             child: Column(
               children: rowsBuilder(args.historicRecords),
             )
