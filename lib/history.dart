@@ -70,11 +70,11 @@ class _HistoryState extends State<History> {
       Icon arrow = figureToday < figureYesterday ? Icon(Icons.arrow_downward, color: Colors.lightGreen[700]) : figureToday == figureYesterday ? Icon(Icons.arrow_forward) : Icon(Icons.arrow_upward, color: Colors.red);
       double percentage = figureYesterday == 0 ? 0.0 : roundDouble(((figureToday / figureYesterday) - 1) * 100, 2);
       Row newRow = Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
             height: 30,
-            width: 120,
+            width: 107,
             decoration: BoxDecoration(
               color: Colors.grey[100 + (i*100)]
             ),
@@ -126,11 +126,11 @@ class _HistoryState extends State<History> {
           Container(
             alignment: Alignment.center,
             height: 30,
-            width: 115,
+            width: 70,
             decoration: BoxDecoration(
                 color: Colors.grey[100 + (i*100)]
             ),
-            child: Text('difference: ${figureToday - figureYesterday}')
+            child: Text('${(figureToday - figureYesterday) >= 0 ? '+' : '-'}' + '${figureToday - figureYesterday}')
           )
         ],
       );
@@ -250,12 +250,12 @@ class _HistoryState extends State<History> {
               margin: EdgeInsets.symmetric(vertical: 0, horizontal: 35),
               padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
                       alignment: Alignment.center,
                       height: 35,
-                      width: 120,
+                      width: 107,
                       decoration: BoxDecoration(
                         color: Colors.yellow,
                       ),
@@ -277,12 +277,16 @@ class _HistoryState extends State<History> {
                   Container(
                     alignment: Alignment.center,
                     height: 35,
-                    width: 115,
+                    width: 70,
                     decoration: BoxDecoration(
                       color: Colors.red
                     ),
-                      child: Text('VS. previous day',
-                        style: boldStyle()
+                      child: Text('VS.\nyesterday',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10
+                        ),
                       )
                   )
                 ],
