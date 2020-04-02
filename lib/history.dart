@@ -281,7 +281,7 @@ class _HistoryState extends State<History> {
                     decoration: BoxDecoration(
                       color: Colors.red
                     ),
-                      child: Text('VS.\nyesterday',
+                      child: Text('VS.\n yesterday',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
