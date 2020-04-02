@@ -232,19 +232,21 @@ class _HistoryState extends State<History> {
             ],
           ),
           Container(
-              height: 17,
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Text('Long press to inspect the chart',
-                style: TextStyle(
-                    fontFamily: 'YK',
-                    fontSize: 17,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.amber[400]
-                ),
-              )
+            margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  color: Colors.blueGrey[700],
+                  height: 35,
+                  child: FlatButton(
+                    child: Text('Daily cases')
+                  )
+                )
+              ],
+            ),
           ),
           Card(
-            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 35),
+            margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
             elevation: 12,
             clipBehavior: Clip.hardEdge,
             child: Container(
@@ -283,6 +285,18 @@ class _HistoryState extends State<History> {
                 ),
               ),
             ),
+          ),
+          Container(
+              height: 17,
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+              child: Text('Long press to inspect the chart',
+                style: TextStyle(
+                    fontFamily: 'YK',
+                    fontSize: 17,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.amber[400]
+                ),
+              )
           ),
           Container(
               margin: EdgeInsets.symmetric(vertical: 0, horizontal: 35),

@@ -29,6 +29,7 @@ class _HomeState extends State<Home> {
   int selectedCountry = 0;
   Country selectedCountryInstance = Country();
   Map dataToday;
+  var historicDeaths;
   var historicData;
   List<Record> historicRecords;
   List selectedCountryHistory;
@@ -75,9 +76,13 @@ class _HomeState extends State<Home> {
             extrapolatedDate.substring(3, 5) + extrapolatedDate.substring(0, 2);
         DateTime dateOfRecord = DateTime.parse(formattedExtrapolatedDate);
         String extrapolatedNewCases = historicData['records'][n]['cases'];
+        String extrapolatedNewDeaths = historicData['records'][n]['deaths'];
         double numberOfNewCases = double.parse(extrapolatedNewCases);
+        double numberOfNewDeaths = double.parse(extrapolatedNewDeaths);
         Record newRecord = Record(
-            recordedAt: dateOfRecord, newCases: numberOfNewCases);
+            recordedAt: dateOfRecord,
+            newCases: numberOfNewCases,
+            newDeaths: numberOfNewDeaths);
         historicRecords.add(newRecord);
       }
     }
