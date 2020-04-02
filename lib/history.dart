@@ -172,6 +172,7 @@ class _HistoryState extends State<History> {
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
                 margin: EdgeInsets.symmetric(vertical: 0, horizontal: 3),
@@ -179,7 +180,7 @@ class _HistoryState extends State<History> {
                 child: Image.asset('assets/flags/${args.country.nation}.png')
               ),
               Container(
-                height: 40,
+                height: 55,
                 margin: EdgeInsets.fromLTRB(3, 20, 3, 0),
                 child: Text('${args.country.nation}',
                   style: TextStyle(
@@ -215,7 +216,7 @@ class _HistoryState extends State<History> {
                 fromDate: fromDate,
                 bezierChartScale: BezierChartScale.WEEKLY,
                 toDate: toDate,
-                selectedDate: toDate,
+                selectedDate: dataPointsArray.last.xAxis,
                 bubbleLabelDateTimeBuilder: (DateTime date, bezierChartScale) {
                   var formatter = DateFormat('y-MMM-d');
                   String bubbleDate =  formatter.format(date);

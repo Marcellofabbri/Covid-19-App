@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
   int selectedCountry = 0;
   Country selectedCountryInstance = Country();
   Map dataToday;
-  Map historicData;
+  var historicData;
   List<Record> historicRecords;
   List selectedCountryHistory;
   List<Map> cardInfo = [
@@ -63,8 +63,9 @@ class _HomeState extends State<Home> {
     selectedCountry = index;
   }
 
-  populateHistoricRecords() {
+  populateHistoricRecords() async {
     historicRecords = [];
+    historicData = await historicData;
     for (var n = 0; n < historicData['records'].length; n++) {
       if (historicData['records'][n]['countriesAndTerritories'] == countryListForDisplay[selectedCountry].nation ||
           historicData['records'][n]['countryterritoryCode'] == countryListForDisplay[selectedCountry].nation ||
@@ -202,8 +203,8 @@ class _HomeState extends State<Home> {
         circleColor = Container(child: Image.asset('assets/blue-circle-2.png'));
       });
 
-      setState(() async {
-        historicData = await getHistoricData();
+      setState(() {
+        historicData = getHistoricData();
         historicRecords = populateHistoricRecords();
       });
     });
@@ -279,8 +280,9 @@ class _HomeState extends State<Home> {
     );
   }
 
-  FlatButton epidemicTrendButton() {
-    if (populateHistoricRecords().isEmpty) {
+  epidemicTrendButton() async {
+    List listOfHistoricRecords = await populateHistoricRecords();
+    if (listOfHistoricRecords.isEmpty) {
       return FlatButton.icon(
         label: Text('Epidemic trend not available'),
         icon: Icon(Icons.do_not_disturb_alt, color: Colors.red, size: 20),
@@ -303,6 +305,14 @@ class _HomeState extends State<Home> {
           }
       );
     }
+  }
+
+  loadingEpidemicTrendButton() {
+    return FlatButton.icon(
+      label: Text('Epidemic trend not available'),
+      icon: SpinKitRotatingCircle(color: Colors.amber, size: 17),
+      onPressed: () {},
+    );
   }
 
   @override
@@ -449,7 +459,17 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   Container(
-                    child: epidemicTrendButton()
+                    child: FutureBuilder(
+                      future: epidemicTrendButton(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return snapshot.data;
+                        } else {
+                          return loadingEpidemicTrendButton();
+                        }
+                        return epidemicTrendButton();
+                      }
+                    )
                   ),
                   Container(
                     height: 275,
