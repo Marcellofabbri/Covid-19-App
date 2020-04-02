@@ -1,6 +1,14 @@
-# covid19app
+# COVID-19 APP
 
-An app for latest updates on the pandemia
+An app for latest updates on the Coronavirus epidemic.
+
+
+
+# Project's story and evolution
+
+This is my first personal side project after completing the Makers Bootcamp in London in March 2020. It's an idea I had for our final project that I couldn't realize, as it had not been picked up, so I started working on it on my own after the end of the course.
+
+
 
 ## Getting Started
 
