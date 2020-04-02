@@ -237,6 +237,12 @@ class _HomeState extends State<Home> {
       country.nation = 'Reunion';
     } else if (country.nation == 'All') {
       country.nation = 'World';
+    } else if (country.nation == 'UK') {
+      country.secondName = ', United Kingdom';
+    } else if (country.nation == 'USA') {
+      country.secondName = ', United States';
+    } else if (country.nation == 'S.-Korea') {
+      country.secondName = ', South Korea';
     }
   }
 
@@ -272,7 +278,8 @@ class _HomeState extends State<Home> {
             selectedCountry = 0;
             countryListForDisplay = countryList.where((country) {
               var countryName = country.nation.toLowerCase();
-              return countryName.contains(text);
+              var countrySecondName = country.secondName.toLowerCase();
+              return countryName.contains(text) || countrySecondName.contains(text);
             }).toList();
           });
         },
@@ -315,6 +322,12 @@ class _HomeState extends State<Home> {
     );
   }
 
+  timestampBuilder() {
+    if (countryList[selectedCountry].timeStamp.replaceFirst(RegExp('T'), ' | ').length > 16) {
+      return countryList[selectedCountry].timeStamp.replaceFirst(RegExp('T'), ' | ').substring(0, 18) + ' GMT';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -338,14 +351,18 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-              child: Text('Updated: ${countryList[selectedCountry].timeStamp.replaceFirst(RegExp('T'), ' | ').substring(0, 18) + ' GMT'}',
+              child: timestampBuilder() == null ?
+              SpinKitWave(color: Colors.white, size: 18) :
+              Text('Updated: ${timestampBuilder()}',
                 style: TextStyle(
                   letterSpacing: 0.0,
                   fontFamily: 'YK',
                   fontSize: 18.0,
                   color: Colors.white
-                )),
+                )
+              ),
             ),
+            (countryList[selectedCountry].timeStamp.replaceFirst(RegExp('T'), ' | ').length > 16) ?
             Container(
               width: 100,
               height: 25,
@@ -368,7 +385,7 @@ class _HomeState extends State<Home> {
                     ],
                   )
               ),
-            ),
+            ) : Container(),
           ],
         )
       ),
@@ -434,14 +451,28 @@ class _HomeState extends State<Home> {
                                                   width: 150.0,
                                                   alignment: AlignmentDirectional.centerStart,
                                                   height: 35.0,
-                                                  child: new Text('${countryListForDisplay[index].nation}',
-                                                    style: TextStyle(
-                                                      fontFamily: 'YK',
-                                                      color: index == selectedCountry ? Colors.blue[600] : Colors.amberAccent[200],
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: fontSizeDecider(index),
-                                                      shadows: [Shadow(blurRadius: 15, color: Colors.brown, offset: Offset(2, 2))]
-                                                    )),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      new Text('${countryListForDisplay[index].nation}',
+                                                        style: TextStyle(
+                                                          fontFamily: 'YK',
+                                                          color: index == selectedCountry ? Colors.blue[600] : Colors.amberAccent[200],
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: fontSizeDecider(index),
+                                                          shadows: [Shadow(blurRadius: 15, color: Colors.brown, offset: Offset(2, 2))]
+                                                        )
+                                                      ),
+                                                      new Text('${countryListForDisplay[index].secondName}',
+                                                          style: TextStyle(
+                                                              fontFamily: 'YK',
+                                                              color: index == selectedCountry ? Colors.blue[600].withOpacity(0.5) : Colors.amberAccent[200].withOpacity(0.3),
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: fontSizeDecider(index)
+                                                          )
+                                                      )
+                                                    ],
+                                                  ),
                                               ),
                                               ]
                                             ),

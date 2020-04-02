@@ -5,6 +5,7 @@ class Country {
   var dataToday = {};
   int index;
   String nation = 'LOADING';
+  String secondName = '';
   String diedToday = 'LOADING';
   String diedSoFar = 'LOADING';
   String illToday = 'LOADING';
