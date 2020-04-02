@@ -23,7 +23,7 @@ The MVP of this project would be an app that lets the user see the latest number
 -**Select which country to query**: I learnt how to do a scrollable set of widgets, each containing a country. Initially the set of scrollable countries was the result of an iteration of a hardcoded list of 10 nations, later on I populated the list with all the countries available in the API, which set me up for the first challenges against the creation of widgets that depend on asynchronous calls. By this stage the app looked like a scrollable container of countries on the top half of the app and some sort of table of figures on the bottom half, which will be meant to change upon selecting a different country.
 
 <p align=center>
-<img src="https://github.com/Marcellofabbri/Covid-19-App/blob/master/screenshots/scrollbar.png?raw=true">
+<img src="https://github.com/Marcellofabbri/Covid-19-App/blob/master/screenshots/Scrollbar.png?raw=true">
 </p>
 
 -**Actually select the country**: now that a list (array) of Country objects is created, each carrying information about their latest figures and name (and intrisically index), there were two tasks left to complete to achieve MVP. The most important was make tapping on a country update the table underneath with the figures relevant for that specific country.
