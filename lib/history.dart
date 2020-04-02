@@ -25,6 +25,9 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
 
+  ScrollController _controller;
+  Icon arrow = Icon(Icons.arrow_drop_down, color: Colors.white70);
+
   Row header = Row(
     children: <Widget>[
       Container(
@@ -62,7 +65,7 @@ class _HistoryState extends State<History> {
 
   rowsBuilder(historicRecords) {
     List<Widget>rows = [];
-    for (var i = 1; i < 6; i++) {
+    for (var i = 1; i < historicRecords.length; i++) {
       var date = historicRecords[historicRecords.length - i].recordedAt;
       var figureToday = historicRecords[historicRecords.length - i].newCases.toInt();
       var figureYesterday = historicRecords[historicRecords.length - i - 1].newCases.toInt();
@@ -76,7 +79,7 @@ class _HistoryState extends State<History> {
             height: 30,
             width: 107,
             decoration: BoxDecoration(
-              color: Colors.grey[100 + (i*100)]
+              color: Colors.grey[(i.isEven? 300 : 400)]
             ),
             child: Row(
               children: <Widget>[
@@ -102,7 +105,7 @@ class _HistoryState extends State<History> {
                 height: 30,
                 width: 30,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[100 + (i*100)]),
+                  border: Border.all(color: Colors.grey[(i.isEven? 300 : 400)]),
                     color: Colors.grey[800]
                 ),
                 child: arrow
@@ -112,7 +115,7 @@ class _HistoryState extends State<History> {
                   height: 30,
                   width: 70,
                   decoration: BoxDecoration(
-                    color: Colors.grey[100 + (i*100)]
+                    color: Colors.grey[(i.isEven? 300 : 400)]
                   ),
                   child: Text('${percentage == 0.0 ? 'N/A' : percentage}' + '%',
                     style: TextStyle(
@@ -128,7 +131,7 @@ class _HistoryState extends State<History> {
             height: 30,
             width: 70,
             decoration: BoxDecoration(
-                color: Colors.grey[100 + (i*100)]
+                color: Colors.grey[(i.isEven? 300 : 400)]
             ),
             child: Text('${(figureToday - figureYesterday) >= 0 ? '+' : '-'}' + '${figureToday - figureYesterday}')
           )
@@ -139,10 +142,45 @@ class _HistoryState extends State<History> {
     return rows;
   }
 
+  generateScrollBar(historicRecords) {
+    return Scrollbar(
+
+      child: ListView(
+        controller: _controller,
+        scrollDirection: Axis.vertical,
+        children: List.generate((rowsBuilder(historicRecords).length), (int index) {
+          return rowsBuilder(historicRecords)[index];
+        }),
+      )
+    );
+  }
+
   TextStyle boldStyle() {
     return TextStyle(
       fontWeight: FontWeight.bold,
     );
+  }
+
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        arrow = Icon(Icons.arrow_drop_up, color: Colors.white70);
+      });
+    }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        arrow = Icon(Icons.arrow_drop_down, color: Colors.white70);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+    super.initState();
   }
 
   @override
@@ -154,9 +192,9 @@ class _HistoryState extends State<History> {
     final toDate = dataPointsArray.last.xAxis.add(new Duration(days: 1));
 
     return Scaffold(
-      backgroundColor: Colors.blueGrey[600],
+      backgroundColor: Colors.blueGrey[800],
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.grey[900],
         title: Text('COVID-19',
           style: TextStyle(
           color: Colors.amberAccent,
@@ -239,7 +277,7 @@ class _HistoryState extends State<History> {
                   verticalIndicatorColor: Colors.red,
                   showVerticalIndicator: true,
                   verticalIndicatorFixedPosition: false,
-                  backgroundColor: Colors.deepPurple[900],
+                  backgroundColor: Colors.blueGrey[700],
                   footerHeight: 45.0,
                   snap: false
                 ),
@@ -293,15 +331,21 @@ class _HistoryState extends State<History> {
               )
           ),
           Container(
-            height: 200,
+            height: 150,
             margin: EdgeInsets.symmetric(vertical: 0, horizontal: 35),
             padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
             decoration: BoxDecoration(
             ),
-            child: Column(
-              children: rowsBuilder(args.historicRecords),
+            child: SizedBox(
+              child: generateScrollBar(args.historicRecords),
             )
           ),
+          Container(
+              height: 23,
+              color: Colors.blueGrey[700],
+              margin: EdgeInsets.symmetric(vertical: 0, horizontal: 35),
+              child: arrow,
+          )
         ],
       )
     );
