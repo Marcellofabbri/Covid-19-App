@@ -43,25 +43,14 @@ class _HistoryState extends State<History> {
   }
 
   dataPointsArrayBuilder(historicRecords) {
-    if (activeVariable == 'newCases') {
       List<DataPoint> array = [];
       for (var i = 0; i < historicRecords.length; i++) {
         DataPoint newDataPoint = DataPoint<DateTime>(
-            value: historicRecords[i].newCases,
-            xAxis: historicRecords[i].recordedAt);
-        array.add(newDataPoint);
+          value: recordsIntoMaps(historicRecords[i])[activeVariable],
+          xAxis: historicRecords[i].recordedAt);
+          array.add(newDataPoint);
       }
       return array;
-    } else if (activeVariable == 'newDeaths') {
-      List<DataPoint> array = [];
-      for (var i = 0; i < historicRecords.length; i++) {
-        DataPoint newDataPoint = DataPoint<DateTime>(
-            value: historicRecords[i].newDeaths,
-            xAxis: historicRecords[i].recordedAt);
-        array.add(newDataPoint);
-      }
-      return array;
-    }
   }
 
   double roundDouble(double value, int places) {
@@ -69,17 +58,18 @@ class _HistoryState extends State<History> {
     return ((value * mod).round().toDouble() / mod);
   }
 
+  recordsIntoMaps(record) {
+    Map mappedRecord = {
+      'recordedAt': record.recordedAt,
+      'newCases': record.newCases,
+      'newDeaths': record.newDeaths,
+      'totalDeaths': record.totalDeaths,
+      'totalCases' : record.totalCases
+    };
+    return mappedRecord;
+  }
+
   rowsBuilder(historicRecords) {
-    recordsIntoMaps(record) {
-      Map mappedRecord = {
-        'recordedAt': record.recordedAt,
-        'newCases': record.newCases,
-        'newDeaths': record.newDeaths,
-        'totalDeaths': record.totalDeaths,
-        'totalCases' : record.totalCases
-      };
-      return mappedRecord;
-    }
     eachRecordRetriever(i) {
       return historicRecords[historicRecords.length - i];
     }
