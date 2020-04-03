@@ -55,7 +55,7 @@ class _HistoryState extends State<History> {
 
   boardColor() {
     switch(activeVariable) {
-      case 'newCases': { return Colors.deepOrange.withOpacity(0.2); }
+      case 'newCases': { return Colors.red[400].withOpacity(0.3); }
       break;
       case 'newDeaths': { return Colors.blue.withOpacity(0.2); }
       break;
@@ -275,12 +275,14 @@ class _HistoryState extends State<History> {
           Container(
             margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.deepOrange.withOpacity(0.3),
+                    color: Colors.red[300].withOpacity(0.4),
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                   ),
+                  width: 75,
                   height: 35,
                   child: FlatButton(
                     onPressed: () {
@@ -288,7 +290,8 @@ class _HistoryState extends State<History> {
                         activeVariable = 'newCases';
                       });
                     },
-                    child: Text('Daily cases',
+                    child: Text('Daily\ncases',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           color: (activeVariable == 'newCases') ? Colors.amberAccent : Colors.white
                           )
@@ -300,6 +303,7 @@ class _HistoryState extends State<History> {
                         color: Colors.blue[300].withOpacity(0.4),
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                     ),
+                    width: 75,
                     height: 35,
                     child: FlatButton(
                       onPressed: () {
@@ -307,7 +311,8 @@ class _HistoryState extends State<History> {
                           activeVariable = 'newDeaths';
                         });
                       },
-                        child: Text('Daily deaths',
+                        child: Text('Daily\ndeaths',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               color: (activeVariable == 'newDeaths') ? Colors.amberAccent : Colors.white
                             ))
@@ -318,6 +323,7 @@ class _HistoryState extends State<History> {
                       color: Colors.green[400].withOpacity(0.4),
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                     ),
+                    width: 75,
                     height: 35,
                     child: FlatButton(
                       onPressed: () {
@@ -325,12 +331,33 @@ class _HistoryState extends State<History> {
                         activeVariable = 'totalCases';
                         });
                       },
-                    child: Text('Total cases',
+                    child: Text('Total\ncases',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: (activeVariable == 'totalCases') ? Colors.amberAccent : Colors.white
                         )
                     )
                   )
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.purple[300].withOpacity(0.4),
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
+                    ),
+                    width: 75,
+                    height: 35,
+                    child: FlatButton(
+                        onPressed: () {
+                          setState(() {
+                            activeVariable = 'totalDeaths';
+                          });
+                        },
+                        child: Text('Total\ndeaths',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: (activeVariable == 'totalDeaths') ? Colors.amberAccent : Colors.white
+                            ))
+                    )
                 )
               ],
             ),
