@@ -35,9 +35,18 @@ class _SpreadState extends State<Spread> {
     }
   }
 
+  recordsCombiner(historicRecords) {
+    int lastIndex = historicRecords.length - 1;
+    double combinedFigure = 0.0;
+    for (var i = 0; i < 7; i++) {
+      combinedFigure += recordsIntoMaps(historicRecords[lastIndex - i])[activeVariable];
+    }
+  }
+
   dataPointsArrayBuilder(historicRecords) {
     List<DataPoint> array = [];
-    for (var i = 0; i < historicRecords.length; i++) {
+
+    for (var i = historicRecords.length - 1; i >= 0; i-=7) {
       DataPoint newDataPoint = DataPoint<DateTime>(
           value: recordsIntoMaps(historicRecords[i])[activeVariable],
           xAxis: historicRecords[i].recordedAt);
@@ -311,47 +320,6 @@ class _SpreadState extends State<Spread> {
                               ))
                       )
                   ),
-                  Container(
-                      decoration: BoxDecoration(
-                          color: Colors.green[400].withOpacity(0.4),
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
-                      ),
-                      width: 75,
-                      height: 35,
-                      child: FlatButton(
-                          onPressed: () {
-                            setState(() {
-                              activeVariable = 'totalCases';
-                            });
-                          },
-                          child: Text('Total\ncases',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: (activeVariable == 'totalCases') ? Colors.amberAccent : Colors.white
-                              )
-                          )
-                      )
-                  ),
-                  Container(
-                      decoration: BoxDecoration(
-                          color: Colors.purple[300].withOpacity(0.4),
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
-                      ),
-                      width: 75,
-                      height: 35,
-                      child: FlatButton(
-                          onPressed: () {
-                            setState(() {
-                              activeVariable = 'totalDeaths';
-                            });
-                          },
-                          child: Text('Total\ndeaths',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: (activeVariable == 'totalDeaths') ? Colors.amberAccent : Colors.white
-                              ))
-                      )
-                  )
                 ],
               ),
             ),
