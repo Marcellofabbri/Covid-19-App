@@ -27,6 +27,7 @@ class _HistoryState extends State<History> {
 
   ScrollController _controller;
   Icon arrow = Icon(Icons.arrow_drop_down, color: Colors.white70);
+  var activeVariable = 'newCases';
 
   Row header = Row(
     children: <Widget>[
@@ -50,12 +51,25 @@ class _HistoryState extends State<History> {
   );
 
   dataPointsArrayBuilder(historicRecords) {
-    List<DataPoint> array = [];
-    for (var i = 0; i < historicRecords.length; i++) {
-      DataPoint newDataPoint = DataPoint<DateTime>(value: historicRecords[i].newCases, xAxis: historicRecords[i].recordedAt);
-      array.add(newDataPoint);
+    if (activeVariable == 'newCases') {
+      List<DataPoint> array = [];
+      for (var i = 0; i < historicRecords.length; i++) {
+        DataPoint newDataPoint = DataPoint<DateTime>(
+            value: historicRecords[i].newCases,
+            xAxis: historicRecords[i].recordedAt);
+        array.add(newDataPoint);
+      }
+      return array;
+    } else if (activeVariable == 'newDeaths') {
+      List<DataPoint> array = [];
+      for (var i = 0; i < historicRecords.length; i++) {
+        DataPoint newDataPoint = DataPoint<DateTime>(
+            value: historicRecords[i].newDeaths,
+            xAxis: historicRecords[i].recordedAt);
+        array.add(newDataPoint);
+      }
+      return array;
     }
-    return array;
   }
 
   double roundDouble(double value, int places) {
@@ -176,6 +190,17 @@ class _HistoryState extends State<History> {
     }
   }
 
+  floatingLabel() {
+    switch(activeVariable) {
+      case 'newCases':
+        { return 'fallen ill on this day'; }
+        break;
+      case 'newDeaths':
+        { return 'died on this day'; }
+        break;
+    }
+  }
+
   @override
   void initState() {
     _controller = ScrollController();
@@ -236,11 +261,41 @@ class _HistoryState extends State<History> {
             child: Row(
               children: <Widget>[
                 Container(
-                  color: Colors.blueGrey[700],
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey[700],
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
+                  ),
                   height: 35,
                   child: FlatButton(
-                    child: Text('Daily cases')
+                    onPressed: () {
+                      setState(() {
+                        activeVariable = 'newCases';
+                      });
+                    },
+                    child: Text('Daily cases',
+                      style: TextStyle(
+                          color: (activeVariable == 'newCases') ? Colors.amberAccent : Colors.white
+                          )
+                    )
                   )
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.blueGrey[600],
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
+                    ),
+                    height: 35,
+                    child: FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          activeVariable = 'newDeaths';
+                        });
+                      },
+                        child: Text('Daily deaths',
+                            style: TextStyle(
+                              color: (activeVariable == 'newDeaths') ? Colors.amberAccent : Colors.white
+                            ))
+                    )
                 )
               ],
             ),
@@ -265,7 +320,7 @@ class _HistoryState extends State<History> {
                 series: [
                   BezierLine(
                     dataPointFillColor: Colors.red,
-                    label: "fallen ill on this day",
+                    label: floatingLabel(),
                     onMissingValue: (dateTime) {
                       return 0.0;
                     },
