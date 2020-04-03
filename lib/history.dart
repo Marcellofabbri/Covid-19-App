@@ -53,6 +53,19 @@ class _HistoryState extends State<History> {
       return array;
   }
 
+  boardColor() {
+    switch(activeVariable) {
+      case 'newCases': { return Colors.deepOrange.withOpacity(0.2); }
+      break;
+      case 'newDeaths': { return Colors.blue.withOpacity(0.2); }
+      break;
+      case 'totalCases': { return Colors.green.withOpacity(0.2); }
+      break;
+      case 'totalDeaths': { return Colors.purpleAccent.withOpacity(0.2); }
+      break;
+    }
+  }
+
   double roundDouble(double value, int places) {
     double mod = pow(10.0, places);
     return ((value * mod).round().toDouble() / mod);
@@ -195,6 +208,12 @@ class _HistoryState extends State<History> {
       case 'newDeaths':
         { return 'died on this day'; }
         break;
+      case 'totalCases':
+        { return 'cases so far'; }
+        break;
+      case 'totalDeaths':
+        { return 'died so far'; }
+        break;
     }
   }
 
@@ -267,7 +286,6 @@ class _HistoryState extends State<History> {
                     onPressed: () {
                       setState(() {
                         activeVariable = 'newCases';
-                        print(args.historicRecords[94].totalCases);
                       });
                     },
                     child: Text('Daily cases',
@@ -294,6 +312,25 @@ class _HistoryState extends State<History> {
                               color: (activeVariable == 'newDeaths') ? Colors.amberAccent : Colors.white
                             ))
                     )
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                      color: Colors.green[400].withOpacity(0.4),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
+                    ),
+                    height: 35,
+                    child: FlatButton(
+                      onPressed: () {
+                      setState(() {
+                        activeVariable = 'totalCases';
+                        });
+                      },
+                    child: Text('Total cases',
+                      style: TextStyle(
+                        color: (activeVariable == 'totalCases') ? Colors.amberAccent : Colors.white
+                        )
+                    )
+                  )
                 )
               ],
             ),
@@ -333,7 +370,7 @@ class _HistoryState extends State<History> {
                   verticalIndicatorColor: Colors.red,
                   showVerticalIndicator: true,
                   verticalIndicatorFixedPosition: false,
-                  backgroundColor: activeVariable == 'newCases' ? Colors.deepOrange.withOpacity(0.2) : Colors.blue.withOpacity(0.2),
+                  backgroundColor: boardColor(),
                   footerHeight: 45.0,
                   pinchZoom: true,
                   snap: false
