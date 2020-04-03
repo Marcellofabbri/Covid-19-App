@@ -35,6 +35,10 @@ class _HistoryState extends State<History> {
       break;
       case 'newDeaths': { return 'Daily deaths'; }
       break;
+      case 'totalCases': { return 'Total Cases'; }
+      break;
+      case 'totalDeaths': { return 'Total deaths'; }
+      break;
     }
   }
 
@@ -273,6 +277,7 @@ class _HistoryState extends State<History> {
                     onPressed: () {
                       setState(() {
                         activeVariable = 'newCases';
+                        print(args.historicRecords[94].totalCases);
                       });
                     },
                     child: Text('Daily cases',

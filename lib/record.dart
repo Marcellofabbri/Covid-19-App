@@ -14,6 +14,6 @@ class Record {
   double totalCases;
   double totalDeaths;
 
-  Record({this.recordedAt, this.newCases, this.newDeaths});
+  Record({this.recordedAt, this.newCases, this.newDeaths, this.totalCases, this.totalDeaths});
 
 }

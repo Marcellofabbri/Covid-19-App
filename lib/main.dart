@@ -82,12 +82,25 @@ class _HomeState extends State<Home> {
         Record newRecord = Record(
             recordedAt: dateOfRecord,
             newCases: numberOfNewCases,
-            newDeaths: numberOfNewDeaths);
+            newDeaths: numberOfNewDeaths,
+            totalCases: 0,
+            totalDeaths: 0);
         historicRecords.add(newRecord);
       }
     }
     historicRecords.sort((record1, record2) => (record1.recordedAt).compareTo(record2.recordedAt));
+    completeTheRecords();
     return historicRecords;
+  }
+
+  completeTheRecords() {
+    Record oldestRecord = historicRecords[0];
+    oldestRecord.totalCases = oldestRecord.newCases;
+    oldestRecord.totalDeaths = oldestRecord.newDeaths;
+    for (var h = 1; h < historicRecords.length; h++)  {
+      historicRecords[h].totalCases = historicRecords[(h - 1)].totalCases + historicRecords[h].newCases;
+      historicRecords[h].totalDeaths = historicRecords[(h - 1)].totalDeaths + historicRecords[h].newDeaths;
+    }
   }
 
   propertySetter(index) {
