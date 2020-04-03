@@ -7,12 +7,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:covid19app/history.dart';
 import 'package:covid19app/record.dart';
+import 'package:covid19app/spread.dart';
 
 void main() => runApp(MaterialApp(
   initialRoute: '/',
   routes: {
     '/': (context) => Home(),
     '/history': (context) => History(),
+    '/spread': (context) => Spread(),
   }
 ));
 
@@ -149,22 +151,22 @@ class _HomeState extends State<Home> {
 
   colorSetter(index) {
     switch(index) {
-      case 0: { return Colors.deepPurple[900]; }
+      case 0: { return Colors.deepPurple[700].withOpacity(0.2); }
       break;
 
-      case 1: { return Colors.deepPurple[900]; }
+      case 1: { return Colors.deepPurple[700].withOpacity(0.2); }
       break;
 
-      case 2: { return Colors.red; }
+      case 2: { return Colors.red[300].withOpacity(0.4); }
       break;
 
-      case 3: { return Colors.red; }
+      case 3: { return Colors.red[300].withOpacity(0.4); }
       break;
 
-      case 4: { return Colors.green; }
+      case 4: { return Colors.green[300].withOpacity(0.4); }
       break;
 
-      case 5: { return Colors.amber; }
+      case 5: { return Colors.amber[300].withOpacity(0.4); }
       break;
     }
   }
@@ -325,6 +327,33 @@ class _HomeState extends State<Home> {
             Navigator.pushNamed(
                 context,
                 '/history',
+                arguments: ScreenArguments(countryListForDisplay[selectedCountry], historicRecords)
+            );
+          }
+      );
+    }
+  }
+
+  spreadRateButton() async {
+    List listOfHistoricRecords = await populateHistoricRecords();
+    if (listOfHistoricRecords.isEmpty) {
+      return FlatButton.icon(
+        label: Text('Spread rate not available'),
+        icon: Icon(Icons.do_not_disturb_alt, color: Colors.red, size: 20),
+        onPressed: () {},
+      );
+    } else {
+      return FlatButton.icon(
+          icon: Icon(Icons.assessment, color: Colors.lightGreen),
+          label: Text("${countryListForDisplay[selectedCountry].nation}'s spread rate",
+              style: TextStyle(
+                  color: Colors.white70
+              )
+          ),
+          onPressed: () {
+            Navigator.pushNamed(
+                context,
+                '/spread',
                 arguments: ScreenArguments(countryListForDisplay[selectedCountry], historicRecords)
             );
           }
@@ -508,21 +537,8 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   Container(
-                    child: FutureBuilder(
-                      future: epidemicTrendButton(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return snapshot.data;
-                        } else {
-                          return loadingEpidemicTrendButton();
-                        }
-                        return epidemicTrendButton();
-                      }
-                    )
-                  ),
-                  Container(
-                    height: 275,
-                    margin: EdgeInsets.fromLTRB(33, 0, 33, 0),
+                    height: 230,
+                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
                     child: ListView(
                       children: List.generate(6, (int index) {
                         return Row(
@@ -530,42 +546,42 @@ class _HomeState extends State<Home> {
                           children: <Widget>[
                             Container(
                               decoration: BoxDecoration(
-                                border: Border.all(width: 1, color: Colors.blueGrey[900]),
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(6), bottomLeft: Radius.circular(6)),
-                                color: Colors.blueGrey[900].withOpacity(0.30 + (0.08 * index)),
+                                border: Border.all(width: 0.05, color: Colors.blueGrey[900]),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(3), bottomLeft: Radius.circular(3)),
+                                color: Colors.white70.withOpacity(index.isEven ? 0.6 : 0.5),
                               ),
                               margin: EdgeInsets.fromLTRB((index * 0.0), 0, 0, 0),
                               padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
-                              alignment: AlignmentDirectional.center,
-                              height: 40,
+                              alignment: AlignmentDirectional.centerStart,
+                              height: 33,
                               width: 190,
                               child: Text('${cardInfo[index]['title']}',
                                 style: TextStyle(
-                                  fontFamily: 'YK',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24,
-                                  color: Colors.grey[300],
-                                  shadows: [Shadow(blurRadius: 1, color: Colors.blueGrey[700], offset: Offset(2, 1))]
+                                  //fontFamily: 'YK',
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 13,
+                                  color: Colors.black,
+                                  //shadows: [Shadow(blurRadius: 1, color: Colors.blueGrey[700], offset: Offset(2, 1))]
                                 )
                             )
                             ),
                             Container(
                               decoration: BoxDecoration(
-                                color: colorSetter(index).withOpacity(0.3),
-                                border: Border.all(width: 1, color: Colors.blueGrey[900]),
-                                borderRadius: BorderRadius.only(topRight: Radius.circular(6), bottomRight: Radius.circular(6)),
+                                color: colorSetter(index),
+                                border: Border.all(width: 0.12, color: Colors.blueGrey[900]),
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(3), bottomRight: Radius.circular(3)),
                               ),
                               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                               alignment: AlignmentDirectional.center,
-                              height: 40,
+                              height: 33,
                               width: 90,
                               child: Text('${propertySetter(index)}',
                                 style: TextStyle(
-                                  fontFamily: 'YK',
+                                  //fontFamily: 'YK',
                                   letterSpacing: 0,
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 21,
-                                  color: Colors.amber[300],
+                                  fontSize: 15,
+                                  color: Colors.white.withOpacity(0.9),
                                   shadows: [Shadow(blurRadius: 5, color: Colors.brown, offset: Offset(0, 0))]
                                 )
                               )
@@ -574,6 +590,35 @@ class _HomeState extends State<Home> {
                         );
                       })
                     ),
+                  ),
+                  Container(
+                    height: 20,
+                      child: FutureBuilder(
+                          future: epidemicTrendButton(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return snapshot.data;
+                            } else {
+                              return loadingEpidemicTrendButton();
+                            }
+                            return epidemicTrendButton();
+                          }
+                      )
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 10, 0, 15),
+                    height: 20,
+                      child: FutureBuilder(
+                          future: spreadRateButton(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return snapshot.data;
+                            } else {
+                              return loadingEpidemicTrendButton();
+                            }
+                            return spreadRateButton();
+                          }
+                      )
                   ),
                 ],
               ),
