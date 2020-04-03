@@ -29,27 +29,6 @@ class _HistoryState extends State<History> {
   Icon arrow = Icon(Icons.arrow_drop_down, color: Colors.white70);
   var activeVariable = 'newCases';
 
-  Row header = Row(
-    children: <Widget>[
-      Container(
-        height: 35,
-        decoration: BoxDecoration(
-          color: Colors.yellow,
-        ),
-        child: Text('NEW CASES')
-      ),
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.red
-        ),
-        child: Text('PERCENTAGE')
-      ),
-      Container(
-        child: Text('COMPARED TO YESTERDAY')
-      )
-    ],
-  );
-
   dataPointsArrayBuilder(historicRecords) {
     if (activeVariable == 'newCases') {
       List<DataPoint> array = [];
@@ -262,7 +241,7 @@ class _HistoryState extends State<History> {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey[700],
+                    color: Colors.deepOrange.withOpacity(0.3),
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                   ),
                   height: 35,
@@ -281,7 +260,7 @@ class _HistoryState extends State<History> {
                 ),
                 Container(
                     decoration: BoxDecoration(
-                        color: Colors.blueGrey[600],
+                        color: Colors.blue[300].withOpacity(0.4),
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                     ),
                     height: 35,
@@ -301,6 +280,7 @@ class _HistoryState extends State<History> {
             ),
           ),
           Card(
+            color: Colors.blueGrey[700],
             margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
             elevation: 12,
             clipBehavior: Clip.hardEdge,
@@ -334,8 +314,9 @@ class _HistoryState extends State<History> {
                   verticalIndicatorColor: Colors.red,
                   showVerticalIndicator: true,
                   verticalIndicatorFixedPosition: false,
-                  backgroundColor: Colors.blueGrey[700],
+                  backgroundColor: activeVariable == 'newCases' ? Colors.deepOrange.withOpacity(0.2) : Colors.blue.withOpacity(0.2),
                   footerHeight: 45.0,
+                  pinchZoom: true,
                   snap: false
                 ),
               ),
