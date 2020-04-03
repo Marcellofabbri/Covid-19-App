@@ -29,6 +29,15 @@ class _HistoryState extends State<History> {
   Icon arrow = Icon(Icons.arrow_drop_down, color: Colors.white70);
   var activeVariable = 'newCases';
 
+  headerTitle() {
+    switch(activeVariable) {
+      case 'newCases': { return 'New Cases'; }
+      break;
+      case 'newDeaths': { return 'Daily deaths'; }
+      break;
+    }
+  }
+
   dataPointsArrayBuilder(historicRecords) {
     if (activeVariable == 'newCases') {
       List<DataPoint> array = [];
@@ -57,12 +66,27 @@ class _HistoryState extends State<History> {
   }
 
   rowsBuilder(historicRecords) {
+    recordsIntoMaps(record) {
+      Map mappedRecord = {
+        'recordedAt': record.recordedAt,
+        'newCases': record.newCases,
+        'newDeaths': record.newDeaths,
+        'totalDeaths': record.totalDeaths,
+        'totalCases' : record.totalCases
+      };
+      return mappedRecord;
+    }
+    eachRecordRetriever(i) {
+      return historicRecords[historicRecords.length - i];
+    }
+    eachRecordRetrieverMinusOne(i) {
+      return historicRecords[historicRecords.length -i - 1];
+    }
     List<Widget>rows = [];
     for (var i = 1; i < historicRecords.length; i++) {
-      var date = historicRecords[historicRecords.length - i].recordedAt;
-      var figureToday = historicRecords[historicRecords.length - i].newCases.toInt();
-      var figureYesterday = historicRecords[historicRecords.length - i - 1].newCases.toInt();
-      var trend = figureToday > figureYesterday ? 'increase' : 'decrease';
+      var date = eachRecordRetriever(i).recordedAt;
+      var figureToday = recordsIntoMaps(eachRecordRetriever(i))[activeVariable].toInt();
+      var figureYesterday = recordsIntoMaps(eachRecordRetrieverMinusOne(i))[activeVariable].toInt();
       Icon arrow = figureToday < figureYesterday ? Icon(Icons.arrow_downward, color: Colors.lightGreen[700]) : figureToday == figureYesterday ? Icon(Icons.arrow_forward) : Icon(Icons.arrow_upward, color: Colors.red);
       double percentage = figureYesterday == 0 ? 0.0 : roundDouble(((figureToday / figureYesterday) - 1) * 100, 2);
       Row newRow = Row(
@@ -347,7 +371,7 @@ class _HistoryState extends State<History> {
                       decoration: BoxDecoration(
                         color: Colors.yellow,
                       ),
-                      child: Text('New cases',
+                      child: Text(headerTitle(),
                         style: boldStyle()
                       )
                   ),

@@ -11,6 +11,8 @@ class Record {
   DateTime recordedAt;
   double newCases;
   double newDeaths;
+  double totalCases;
+  double totalDeaths;
 
   Record({this.recordedAt, this.newCases, this.newDeaths});
 
