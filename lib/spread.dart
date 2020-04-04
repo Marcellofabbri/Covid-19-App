@@ -41,6 +41,7 @@ class _SpreadState extends State<Spread> {
     for (var i = 0; i < 7; i++) {
       combinedFigure += recordsIntoMaps(historicRecords[lastIndex - i])[activeVariable];
     }
+    return combinedFigure;
   }
 
   dataPointsArrayBuilder(historicRecords) {
@@ -48,7 +49,7 @@ class _SpreadState extends State<Spread> {
 
     for (var i = historicRecords.length - 1; i >= 0; i-=7) {
       DataPoint newDataPoint = DataPoint<DateTime>(
-          value: recordsIntoMaps(historicRecords[i])[activeVariable],
+          value: recordsCombiner(historicRecords),
           xAxis: historicRecords[i].recordedAt);
       array.add(newDataPoint);
     }
@@ -219,6 +220,15 @@ class _SpreadState extends State<Spread> {
     }
   }
 
+  abscissaConstructor(dataPointsArray) {
+    List abscissa = [];
+    List<double>abscissaPoints = [];
+    double x = 0.0;
+    dataPointsArray.forEach((dataPoint) => abscissa.add(dataPoint.xAxis));
+    dataPointsArray.forEach((dataPoint) => abscissaPoints.add(x += 1));
+    return abscissaPoints;
+  }
+
   @override
   void initState() {
     _controller = ScrollController();
@@ -291,6 +301,16 @@ class _SpreadState extends State<Spread> {
                             setState(() {
                               activeVariable = 'newCases';
                             });
+                            print(dataPointsArray);
+                            print('HISTORIC RECORDS');
+                            print(args.historicRecords[189].recordedAt);
+                            print(args.historicRecords[189].newCases);
+                            print(args.historicRecords[188].recordedAt);
+                            print(args.historicRecords[188].newCases);
+                            print(args.historicRecords[187].recordedAt);
+                            print(args.historicRecords[187].newCases);
+                            print(args.historicRecords[186].recordedAt);
+                            print(args.historicRecords[186].newCases);
                           },
                           child: Text('Daily\ncases',
                               textAlign: TextAlign.center,
@@ -332,10 +352,8 @@ class _SpreadState extends State<Spread> {
                 height: MediaQuery.of(context).size.height / 3,
                 width: MediaQuery.of(context).size.width,
                 child: BezierChart(
-                  fromDate: fromDate,
-                  bezierChartScale: BezierChartScale.WEEKLY,
-                  toDate: toDate,
-                  selectedDate: dataPointsArray.last.xAxis,
+                  bezierChartScale: BezierChartScale.CUSTOM,
+                    xAxisCustomValues: abscissaConstructor(dataPointsArray),
                   bubbleLabelDateTimeBuilder: (DateTime date, bezierChartScale) {
                     var formatter = DateFormat('y-MMM-d');
                     String bubbleDate =  formatter.format(date);

@@ -308,7 +308,7 @@ class _HomeState extends State<Home> {
   }
 
   epidemicTrendButton() async {
-    List listOfHistoricRecords = await populateHistoricRecords();
+    List listOfHistoricRecords = historicRecords;
     if (listOfHistoricRecords.isEmpty) {
       return FlatButton.icon(
         label: Text('Epidemic trend not available'),
@@ -335,7 +335,7 @@ class _HomeState extends State<Home> {
   }
 
   spreadRateButton() async {
-    List listOfHistoricRecords = await populateHistoricRecords();
+    List listOfHistoricRecords = historicRecords;
     if (listOfHistoricRecords.isEmpty) {
       return FlatButton.icon(
         label: Text('Spread rate not available'),
