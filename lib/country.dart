@@ -6,6 +6,7 @@ class Country {
   int index;
   String nation = 'LOADING';
   String secondName = '';
+  String thirdName = '';
   String diedToday = 'LOADING';
   String diedSoFar = 'LOADING';
   String illToday = 'LOADING';

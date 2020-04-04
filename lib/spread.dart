@@ -375,6 +375,7 @@ class _SpreadState extends State<Spread> {
                     ),
                   ],
                   config: BezierChartConfig(
+                      showDataPoints: false,
                       displayYAxis: false,
                       displayLinesXAxis: true,
                       verticalIndicatorStrokeWidth: 3.0,
@@ -390,9 +391,10 @@ class _SpreadState extends State<Spread> {
               ),
             ),
             Container(
-                height: 17,
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                child: Text('Long press to inspect the chart',
+                height: 35,
+                margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                child: Text('Long press to inspect the chart\nFigures may be offset by one day based on where you live',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'YK',
                       fontSize: 17,

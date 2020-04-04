@@ -282,7 +282,7 @@ class _HistoryState extends State<History> {
                     color: Colors.red[300].withOpacity(0.4),
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                   ),
-                  width: 75,
+                  width: 70,
                   height: 35,
                   child: FlatButton(
                     onPressed: () {
@@ -303,7 +303,7 @@ class _HistoryState extends State<History> {
                         color: Colors.blue[300].withOpacity(0.4),
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                     ),
-                    width: 75,
+                    width: 70,
                     height: 35,
                     child: FlatButton(
                       onPressed: () {
@@ -323,7 +323,7 @@ class _HistoryState extends State<History> {
                       color: Colors.green[400].withOpacity(0.4),
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                     ),
-                    width: 75,
+                    width: 70,
                     height: 35,
                     child: FlatButton(
                       onPressed: () {
@@ -344,7 +344,7 @@ class _HistoryState extends State<History> {
                         color: Colors.purple[300].withOpacity(0.4),
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                     ),
-                    width: 75,
+                    width: 70,
                     height: 35,
                     child: FlatButton(
                         onPressed: () {

@@ -72,7 +72,8 @@ class _HomeState extends State<Home> {
     for (var n = 0; n < historicData['records'].length; n++) {
       if (historicData['records'][n]['countriesAndTerritories'] == countryListForDisplay[selectedCountry].nation ||
           historicData['records'][n]['countryterritoryCode'] == countryListForDisplay[selectedCountry].nation ||
-          historicData['records'][n]['geoId'] == countryListForDisplay[selectedCountry].nation) {
+          historicData['records'][n]['geoId'] == countryListForDisplay[selectedCountry].nation ||
+          historicData['records'][n]['countriesAndTerritories'] == countryListForDisplay[selectedCountry].thirdName) {
         String extrapolatedDate = historicData['records'][n]['dateRep'];
         String formattedExtrapolatedDate = extrapolatedDate.substring(6, 10) +
             extrapolatedDate.substring(3, 5) + extrapolatedDate.substring(0, 2);
@@ -263,6 +264,83 @@ class _HomeState extends State<Home> {
       country.secondName = ', United States';
     } else if (country.nation == 'S.-Korea') {
       country.secondName = ', South Korea';
+    } else if (country.nation == 'Bosnia-and-Herzegovina') {
+      country.thirdName = 'Bosnia_and_Herzegovina';
+    } else if (country.nation == 'Brunei-') {
+      country.thirdName = 'Brunei_Darussalam';
+    } else if (country.nation == 'Burkina-Faso') {
+      country.thirdName = 'Burkina_Faso';
+    } else if (country.nation == 'CAR') {
+      country.secondName = 'Central African Republic';
+      country.thirdName = 'Central_African_Republic';
+    } else if (country.nation == 'Cabo-Verde') {
+      country.thirdName = 'Cape_Verde';
+    } else if (country.nation == 'Cayman-Islands') {
+      country.thirdName = 'Cayman_Islands';
+    } else if (country.nation == 'Costa-Rica') {
+      country.thirdName = 'Costa_Rica';
+    } else if (country.nation == 'Curacao') {
+      country.thirdName = 'Curaçao';
+    } else if (country.nation == 'Czechia') {
+      country.thirdName = 'Czech Republic';
+    } else if (country.nation == 'DRC') {
+      country.secondName = 'Dem. Rep. of Congo';
+      country.thirdName = 'Democratic_Republic_of_the_Congo';
+    } else if (country.nation == 'Dominican-Republic') {
+      country.thirdName = 'Dominican_Republic';
+    } else if (country.nation == 'El-Salvador') {
+      country.thirdName = 'El_Salvador';
+    } else if (country.nation == 'Equatorial-Guinea') {
+      country.thirdName = 'Equatorial_Guinea';
+    } else if (country.nation == 'Eswatini') {
+      country.secondName = 'Swaziland';
+    } else if (country.nation == 'French-Polynesia') {
+      country.thirdName = 'French_Polynesia';
+    } else if (country.nation == 'Isle-of-Man') {
+      country.thirdName = 'Isle_of_Man';
+    } else if (country.nation == 'Ivory-Coast') {
+      country.thirdName = 'Cote_dIvoire';
+    } else if (country.nation == 'New-Caledonia') {
+      country.thirdName = 'New_Caledonia';
+    } else if (country.nation == 'New-Zealand') {
+      country.thirdName = 'New_Zealand';
+    } else if (country.nation == 'North-Macedonia') {
+      country.thirdName = 'North_Macedonia';
+    } else if (country.nation == 'Papua-New-Guinea') {
+      country.thirdName = 'Papua_New_Guinea';
+    } else if (country.nation == 'Puerto-Rico') {
+      country.thirdName = 'Puerto_Rico';
+    } else if (country.nation == 'S.-Korea') {
+      country.thirdName = 'South_Korea';
+    } else if (country.nation == 'Saint-Lucia') {
+      country.thirdName = 'Saint_Lucia';
+    } else if (country.nation == 'San-Marino') {
+      country.thirdName = 'San_Marino';
+    } else if (country.nation == 'Saudi-Arabia') {
+      country.thirdName = 'Saudi_Arabia';
+    } else if (country.nation == 'Sint-Maarten') {
+      country.thirdName = 'Sint_Maarten';
+    } else if (country.nation == 'South-Africa') {
+      country.thirdName = 'South_Africa';
+    } else if (country.nation == 'Sri-Lanka') {
+      country.thirdName = 'Sri_Lanka';
+    } else if (country.nation == 'St.-Barth') {
+      country.thirdName = 'Saint_Barthelemy';
+    } else if (country.nation == 'St.-Vincent-Grenadines') {
+      country.thirdName = 'Saint_Vincent_and_the_Grenadines';
+    } else if (country.nation == 'Tanzania') {
+      country.thirdName = 'United_Republic_of_Tanzania';
+    } else if (country.nation == 'Trinidad-and-Tobago') {
+      country.thirdName = 'Trinidad_and_Tobago';
+    } else if (country.nation == 'Turks-and-Caicos') {
+      country.thirdName = 'Turks_and_Caicos_islands';
+    } else if (country.nation == 'UAE') {
+      country.thirdName = 'United_Arab_Emirates';
+      country.secondName = 'United Arab Emirates';
+    } else if (country.nation == 'U.S.-Virgin-Islands') {
+      country.thirdName = 'United_States_Virgin_Islands';
+    } else if (country.nation == 'Vatican-City') {
+      country.thirdName = 'Holy_See';
     }
   }
 
