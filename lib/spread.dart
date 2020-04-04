@@ -295,7 +295,7 @@ class _SpreadState extends State<Spread> {
             Container(
               margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
                       decoration: BoxDecoration(
@@ -309,7 +309,6 @@ class _SpreadState extends State<Spread> {
                             setState(() {
                               activeVariable = 'newCases';
                             });
-                            print(dataPointsArray);
                           },
                           child: Text('Cases every\n5 days',
                               textAlign: TextAlign.center,

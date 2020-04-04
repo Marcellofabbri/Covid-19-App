@@ -302,6 +302,7 @@ class _HomeState extends State<Home> {
               return countryName.contains(text) || countrySecondName.contains(text);
             }).toList();
           });
+          populateHistoricRecords();
         },
       ),
     );
