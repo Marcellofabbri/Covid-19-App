@@ -24,9 +24,9 @@ class _SpreadState extends State<Spread> {
 
   headerTitle() {
     switch(activeVariable) {
-      case 'newCases': { return 'New Cases'; }
+      case 'newCases': { return 'Cases every 5 days'; }
       break;
-      case 'newDeaths': { return 'Daily deaths'; }
+      case 'newDeaths': { return 'Deaths every 5 days'; }
       break;
       case 'totalCases': { return 'Total Cases'; }
       break;
@@ -35,11 +35,13 @@ class _SpreadState extends State<Spread> {
     }
   }
 
-  recordsCombiner(historicRecords) {
-    int lastIndex = historicRecords.length - 1;
+  recordsCombiner(historicRecords, lastIndex) {
     double combinedFigure = 0.0;
-    for (var i = 0; i < 7; i++) {
-      combinedFigure += recordsIntoMaps(historicRecords[lastIndex - i])[activeVariable];
+    for (var f = 0; f < 5; f++) {
+      if (lastIndex - f >= 0) {
+        combinedFigure +=
+        recordsIntoMaps(historicRecords[lastIndex - f])[activeVariable];
+      }
     }
     return combinedFigure;
   }
@@ -47,18 +49,21 @@ class _SpreadState extends State<Spread> {
   dataPointsArrayBuilder(historicRecords) {
     List<DataPoint> array = [];
 
-    for (var i = historicRecords.length - 1; i >= 0; i-=7) {
+    for (var i = historicRecords.length - 1; i >= 0; i-=5) {
       DataPoint newDataPoint = DataPoint<DateTime>(
-          value: recordsCombiner(historicRecords),
+          value: recordsCombiner(historicRecords, i),
           xAxis: historicRecords[i].recordedAt);
       array.add(newDataPoint);
     }
-    return array;
+
+    List<DataPoint> arrayReversed = new List.from(array.reversed);
+
+    return arrayReversed;
   }
 
   boardColor() {
     switch(activeVariable) {
-      case 'newCases': { return Colors.red[400].withOpacity(0.3); }
+      case 'newCases': { return Colors.pink[400].withOpacity(0.3); }
       break;
       case 'newDeaths': { return Colors.blue.withOpacity(0.2); }
       break;
@@ -85,35 +90,38 @@ class _SpreadState extends State<Spread> {
     return mappedRecord;
   }
 
-  rowsBuilder(historicRecords) {
-    eachRecordRetriever(i) {
-      return historicRecords[historicRecords.length - i];
+  rowsBuilder(dataPointsArray) {
+    eachDataPointRetriever(i) {
+      return dataPointsArray[dataPointsArray.length - i];
     }
-    eachRecordRetrieverMinusOne(i) {
-      return historicRecords[historicRecords.length -i - 1];
+    eachDataPointRetrieverMinusOne(i) {
+      return dataPointsArray[dataPointsArray.length - i - 1];
     }
     List<Widget>rows = [];
-    for (var i = 1; i < historicRecords.length; i++) {
-      var date = eachRecordRetriever(i).recordedAt;
-      var figureToday = recordsIntoMaps(eachRecordRetriever(i))[activeVariable].toInt();
-      var figureYesterday = recordsIntoMaps(eachRecordRetrieverMinusOne(i))[activeVariable].toInt();
-      Icon arrow = figureToday < figureYesterday ? Icon(Icons.arrow_downward, color: Colors.lightGreen[700]) : figureToday == figureYesterday ? Icon(Icons.arrow_forward) : Icon(Icons.arrow_upward, color: Colors.red);
-      double percentage = figureYesterday == 0 ? 0.0 : roundDouble(((figureToday / figureYesterday) - 1) * 100, 2);
+    for (var i = 1; i < dataPointsArray.length; i++) {
+      var date = eachDataPointRetriever(i).xAxis;
+      var periodEndingOn = Jiffy(date).format("MMM dd");
+      var periodStartingOn = Jiffy(Jiffy(date).subtract(duration: Duration(days: 4))).format("MMM dd");
+      var figureToday = eachDataPointRetriever(i).value.toInt();
+      var figure5daysAgo = (eachDataPointRetrieverMinusOne(i)).value.toInt();
+      Icon arrow = figureToday < figure5daysAgo ? Icon(Icons.arrow_downward, color: Colors.lightGreen[700]) : figureToday == figure5daysAgo ? Icon(Icons.arrow_forward) : Icon(Icons.arrow_upward, color: Colors.red);
+      double percentage = figure5daysAgo == 0 ? 0.0 : roundDouble(((figureToday / figure5daysAgo) - 1) * 100, 2);
       Row newRow = Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
-              height: 30,
+              height: 40,
               width: 107,
               decoration: BoxDecoration(
                   color: Colors.grey[(i.isEven? 300 : 400)]
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
                     decoration: BoxDecoration(
                     ),
-                    child: Text(' ${Jiffy(date).format("MMM dd")}: '),
+                    child: Text(' $periodStartingOn \n $periodEndingOn'),
                   ),
                   Container(
                       decoration: BoxDecoration(
@@ -129,7 +137,7 @@ class _SpreadState extends State<Spread> {
             children: <Widget>[
               Container(
                   alignment: Alignment.center,
-                  height: 30,
+                  height: 40,
                   width: 30,
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey[(i.isEven? 300 : 400)]),
@@ -139,7 +147,7 @@ class _SpreadState extends State<Spread> {
               ),
               Container(
                   alignment: Alignment.center,
-                  height: 30,
+                  height: 40,
                   width: 70,
                   decoration: BoxDecoration(
                       color: Colors.grey[(i.isEven? 300 : 400)]
@@ -155,12 +163,12 @@ class _SpreadState extends State<Spread> {
           ),
           Container(
               alignment: Alignment.center,
-              height: 30,
+              height: 40,
               width: 70,
               decoration: BoxDecoration(
                   color: Colors.grey[(i.isEven? 300 : 400)]
               ),
-              child: Text('${(figureToday - figureYesterday) >= 0 ? '+' : '-'}' + '${figureToday - figureYesterday}')
+              child: Text('${(figureToday - figure5daysAgo) >= 0 ? '+' : '-'}' + '${figureToday - figure5daysAgo}')
           )
         ],
       );
@@ -169,14 +177,14 @@ class _SpreadState extends State<Spread> {
     return rows;
   }
 
-  generateScrollBar(historicRecords) {
+  generateScrollBar(dataPointsArray) {
     return Scrollbar(
 
         child: ListView(
           controller: _controller,
           scrollDirection: Axis.vertical,
-          children: List.generate((rowsBuilder(historicRecords).length), (int index) {
-            return rowsBuilder(historicRecords)[index];
+          children: List.generate((rowsBuilder(dataPointsArray).length), (int index) {
+            return rowsBuilder(dataPointsArray)[index];
           }),
         )
     );
@@ -206,10 +214,10 @@ class _SpreadState extends State<Spread> {
   floatingLabel() {
     switch(activeVariable) {
       case 'newCases':
-        { return 'fallen ill on this day'; }
+        { return 'ill in the past 5 days'; }
         break;
       case 'newDeaths':
-        { return 'died on this day'; }
+        { return 'died in the past 5 days'; }
         break;
       case 'totalCases':
         { return 'cases so far'; }
@@ -223,7 +231,7 @@ class _SpreadState extends State<Spread> {
   abscissaConstructor(dataPointsArray) {
     List abscissa = [];
     List<double>abscissaPoints = [];
-    double x = 0.0;
+    double x = -1.0;
     dataPointsArray.forEach((dataPoint) => abscissa.add(dataPoint.xAxis));
     dataPointsArray.forEach((dataPoint) => abscissaPoints.add(x += 1));
     return abscissaPoints;
@@ -291,10 +299,10 @@ class _SpreadState extends State<Spread> {
                 children: <Widget>[
                   Container(
                       decoration: BoxDecoration(
-                          color: Colors.red[300].withOpacity(0.4),
+                          color: Colors.pink[300].withOpacity(0.4),
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                       ),
-                      width: 75,
+                      width: 115,
                       height: 35,
                       child: FlatButton(
                           onPressed: () {
@@ -302,17 +310,8 @@ class _SpreadState extends State<Spread> {
                               activeVariable = 'newCases';
                             });
                             print(dataPointsArray);
-                            print('HISTORIC RECORDS');
-                            print(args.historicRecords[189].recordedAt);
-                            print(args.historicRecords[189].newCases);
-                            print(args.historicRecords[188].recordedAt);
-                            print(args.historicRecords[188].newCases);
-                            print(args.historicRecords[187].recordedAt);
-                            print(args.historicRecords[187].newCases);
-                            print(args.historicRecords[186].recordedAt);
-                            print(args.historicRecords[186].newCases);
                           },
-                          child: Text('Daily\ncases',
+                          child: Text('Cases every\n5 days',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: (activeVariable == 'newCases') ? Colors.amberAccent : Colors.white
@@ -325,7 +324,7 @@ class _SpreadState extends State<Spread> {
                           color: Colors.blue[300].withOpacity(0.4),
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                       ),
-                      width: 75,
+                      width: 115,
                       height: 35,
                       child: FlatButton(
                           onPressed: () {
@@ -333,7 +332,7 @@ class _SpreadState extends State<Spread> {
                               activeVariable = 'newDeaths';
                             });
                           },
-                          child: Text('Daily\ndeaths',
+                          child: Text('Deaths every\n5 days',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: (activeVariable == 'newDeaths') ? Colors.amberAccent : Colors.white
@@ -349,18 +348,25 @@ class _SpreadState extends State<Spread> {
               elevation: 12,
               clipBehavior: Clip.hardEdge,
               child: Container(
-                height: MediaQuery.of(context).size.height / 3,
+                height: MediaQuery.of(context).size.height / 3.8,
                 width: MediaQuery.of(context).size.width,
                 child: BezierChart(
                   bezierChartScale: BezierChartScale.CUSTOM,
                     xAxisCustomValues: abscissaConstructor(dataPointsArray),
-                  bubbleLabelDateTimeBuilder: (DateTime date, bezierChartScale) {
+                    bubbleLabelValueBuilder: (value) {
+                      var formatter = DateFormat('y-MMM-d');
+                      var date = dataPointsArray[value.toInt()].xAxis;
+                      String bubbleDate =  formatter.format(date);
+                      return bubbleDate.substring(0, 4) + ' ' + bubbleDate.substring(5, 8) + ' ' + bubbleDate.substring(9) + '\n';
+                    },
+                    bubbleLabelDateTimeBuilder: (DateTime date, bezierChartScale) {
                     var formatter = DateFormat('y-MMM-d');
                     String bubbleDate =  formatter.format(date);
                     return bubbleDate.substring(0, 4) + ' ' + bubbleDate.substring(5, 8) + ' ' + bubbleDate.substring(9) + '\n';
                   },
                   series: [
                     BezierLine(
+                        lineStrokeWidth: 3,
                         dataPointFillColor: Colors.red,
                         label: floatingLabel(),
                         onMissingValue: (dateTime) {
@@ -377,7 +383,7 @@ class _SpreadState extends State<Spread> {
                       showVerticalIndicator: true,
                       verticalIndicatorFixedPosition: false,
                       backgroundColor: boardColor(),
-                      footerHeight: 45.0,
+                      footerHeight: 30.0,
                       pinchZoom: true,
                       snap: false
                   ),
@@ -410,6 +416,7 @@ class _SpreadState extends State<Spread> {
                           color: Colors.yellow,
                         ),
                         child: Text(headerTitle(),
+                            textAlign: TextAlign.center,
                             style: boldStyle()
                         )
                     ),
@@ -431,7 +438,7 @@ class _SpreadState extends State<Spread> {
                         decoration: BoxDecoration(
                             color: Colors.red
                         ),
-                        child: Text('VS.\n yesterday',
+                        child: Text('VS. previous 5day-span',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -443,13 +450,13 @@ class _SpreadState extends State<Spread> {
                 )
             ),
             Container(
-                height: 150,
+                height: 200,
                 margin: EdgeInsets.symmetric(vertical: 0, horizontal: 35),
                 padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 decoration: BoxDecoration(
                 ),
                 child: SizedBox(
-                  child: generateScrollBar(args.historicRecords),
+                  child: generateScrollBar(dataPointsArray),
                 )
             ),
             Container(
