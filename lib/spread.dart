@@ -63,7 +63,7 @@ class _SpreadState extends State<Spread> {
 
   boardColor() {
     switch(activeVariable) {
-      case 'newCases': { return Colors.pink[400].withOpacity(0.3); }
+      case 'newCases': { return Colors.red[400].withOpacity(0.3); }
       break;
       case 'newDeaths': { return Colors.blue.withOpacity(0.2); }
       break;
@@ -299,7 +299,7 @@ class _SpreadState extends State<Spread> {
                 children: <Widget>[
                   Container(
                       decoration: BoxDecoration(
-                          color: Colors.pink[300].withOpacity(0.4),
+                          color: Colors.red[400].withOpacity(0.3),
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                       ),
                       width: 115,
@@ -320,7 +320,7 @@ class _SpreadState extends State<Spread> {
                   ),
                   Container(
                       decoration: BoxDecoration(
-                          color: Colors.blue[300].withOpacity(0.4),
+                          color: Colors.blue[700].withOpacity(0.3),
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                       ),
                       width: 115,
@@ -342,12 +342,13 @@ class _SpreadState extends State<Spread> {
               ),
             ),
             Card(
-              color: Colors.blueGrey[700],
+              color: boardColor(),
               margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
               elevation: 12,
               clipBehavior: Clip.hardEdge,
               child: Container(
-                height: MediaQuery.of(context).size.height / 3.8,
+                padding: EdgeInsets.only(top: 25),
+                height: MediaQuery.of(context).size.height / 4,
                 width: MediaQuery.of(context).size.width,
                 child: BezierChart(
                   bezierChartScale: BezierChartScale.CUSTOM,
@@ -376,14 +377,13 @@ class _SpreadState extends State<Spread> {
                   ],
                   config: BezierChartConfig(
                       showDataPoints: false,
-                      displayYAxis: false,
                       displayLinesXAxis: true,
                       verticalIndicatorStrokeWidth: 3.0,
                       verticalIndicatorColor: Colors.red,
                       showVerticalIndicator: true,
                       verticalIndicatorFixedPosition: false,
                       backgroundColor: boardColor(),
-                      footerHeight: 30.0,
+                      footerHeight: 28.0,
                       pinchZoom: true,
                       snap: false
                   ),

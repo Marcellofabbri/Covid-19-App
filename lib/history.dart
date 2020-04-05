@@ -279,7 +279,7 @@ class _HistoryState extends State<History> {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.red[300].withOpacity(0.4),
+                    color: Colors.red[400].withOpacity(0.3),
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                   ),
                   width: 70,
@@ -300,7 +300,7 @@ class _HistoryState extends State<History> {
                 ),
                 Container(
                     decoration: BoxDecoration(
-                        color: Colors.blue[300].withOpacity(0.4),
+                        color: Colors.blue[700].withOpacity(0.3),
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                     ),
                     width: 70,
@@ -320,7 +320,7 @@ class _HistoryState extends State<History> {
                 ),
                 Container(
                     decoration: BoxDecoration(
-                      color: Colors.green[400].withOpacity(0.4),
+                      color: Colors.green[700].withOpacity(0.3),
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                     ),
                     width: 70,
@@ -341,7 +341,7 @@ class _HistoryState extends State<History> {
                 ),
                 Container(
                     decoration: BoxDecoration(
-                        color: Colors.purple[300].withOpacity(0.4),
+                        color: Colors.purple[400].withOpacity(0.2),
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6))
                     ),
                     width: 70,
@@ -363,11 +363,12 @@ class _HistoryState extends State<History> {
             ),
           ),
           Card(
-            color: Colors.blueGrey[700],
+            color: boardColor(),
             margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
             elevation: 12,
             clipBehavior: Clip.hardEdge,
             child: Container(
+              padding: EdgeInsets.only(top: 20),
               height: MediaQuery.of(context).size.height / 3,
               width: MediaQuery.of(context).size.width,
               child: BezierChart(
