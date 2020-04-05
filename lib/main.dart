@@ -527,6 +527,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Container(
+              margin: EdgeInsets.symmetric(vertical: 3),
               width: 100,
               height: 25,
               child: RaisedButton(
@@ -541,6 +542,7 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
+                          height: 25,
                           width: 20,
                           child: Icon(Icons.list, color: Colors.white)
                       ),
