@@ -31,6 +31,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   var circleColor;
+  var timestampColor = Colors.white70.withOpacity(0.5);
   List<Country> countryList = [];
   List<Country> countryListForDisplay = [Country(), Country(), Country(), Country(), Country(), Country()];
   int selectedCountry = 0;
@@ -216,6 +217,7 @@ class _HomeState extends State<Home> {
   Future loadUp() async {
     setState(() {
       circleColor = SpinKitRotatingCircle(color: Colors.red, size: 18);
+      timestampColor = Colors.red.withOpacity(0.5);
     });
     setState(() async {
       populateCountryList(await getData());
@@ -229,6 +231,7 @@ class _HomeState extends State<Home> {
 
       setState(() {
         circleColor = Container(child: Image.asset('assets/blue-circle-2.png'));
+        timestampColor = Colors.white70.withOpacity(0.5);
       });
 
       setState(() {
@@ -425,7 +428,7 @@ class _HomeState extends State<Home> {
       ));
     });});
 
-    Timer(Duration(milliseconds: 1000), () { Navigator.pushNamed(
+    Timer(Duration(milliseconds: 1250), () { Navigator.pushNamed(
         context,
         '/history',
         arguments: ScreenArguments(countryListForDisplay[selectedCountry], historicRecords)
@@ -467,7 +470,7 @@ class _HomeState extends State<Home> {
       ));
     });});
 
-    Timer(Duration(milliseconds: 1000), () { Navigator.pushNamed(
+    Timer(Duration(milliseconds: 1250), () { Navigator.pushNamed(
         context,
         '/spread',
         arguments: ScreenArguments(countryListForDisplay[selectedCountry], historicRecords)
@@ -486,11 +489,19 @@ class _HomeState extends State<Home> {
     );
   }
 
-  timestampBuilder() {
+  timestampBuilderDay() {
     if (countryList[selectedCountry].timeStamp.replaceFirst(RegExp('T'), ' | ').length > 16) {
       var timestamp = Jiffy(countryList[selectedCountry].timeStamp);
       var summerTimestamp = timestamp.subtract(duration: Duration(hours: 1));
-      return Jiffy(summerTimestamp).format("dd MMM yyyy - HH:mm") + ' GMT';
+      return Jiffy(summerTimestamp).format("dd MMM yyyy");
+    }
+  }
+
+  timestampBuilderHour() {
+    if (countryList[selectedCountry].timeStamp.replaceFirst(RegExp('T'), ' | ').length > 16) {
+      var timestamp = Jiffy(countryList[selectedCountry].timeStamp);
+      var summerTimestamp = timestamp.subtract(duration: Duration(hours: 1));
+      return Jiffy(summerTimestamp).format("HH:mm") + ' GMT';
     }
   }
 
@@ -531,9 +542,9 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
                       Container(
                           width: 20,
-                          child: loadingButtonColor()
+                          child: Icon(Icons.list, color: Colors.white)
                       ),
-                      Text('About',
+                      Text('  About',
                           style: TextStyle(
                               color: Colors.amber[300]
                           )
@@ -547,9 +558,10 @@ class _HomeState extends State<Home> {
               height: 25,
               child: RaisedButton(
                   color: Colors.blueGrey[700],
-                  onPressed: () { loadUp();
-                  build(context);
-                  print(Jiffy(countryList[selectedCountry].timeStamp).format("dd-MMM-yyyy"));},
+                  onPressed: () {
+                    loadUp();
+                    build(context);
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -741,9 +753,9 @@ class _HomeState extends State<Home> {
                           decoration: BoxDecoration(
                             border: Border.all(width: 0.05, color: Colors.blueGrey[900]),
                             borderRadius: BorderRadius.only(topLeft: Radius.circular(3), bottomLeft: Radius.circular(3)),
-                            color: Colors.white70.withOpacity(0.5)
+                            color: timestampColor
                             ),
-                          child: Text('${timestampBuilder()}',
+                          child: Text('UPDATED: ${timestampBuilderDay()}',
                               style: TextStyle(
                                 //fontFamily: 'YK',
                                   letterSpacing: 0,
@@ -759,11 +771,11 @@ class _HomeState extends State<Home> {
                               border: Border.all(width: 0.12, color: Colors.blueGrey[900]),
                               borderRadius: BorderRadius.only(topRight: Radius.circular(3), bottomRight: Radius.circular(3)),
                             ),
-                            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
                             alignment: AlignmentDirectional.center,
                             height: 33,
                             width: 90,
-                            child: Text('500',
+                            child: Text('${timestampBuilderHour()}',
                                 style: TextStyle(
                                   //fontFamily: 'YK',
                                     letterSpacing: 0,
@@ -783,7 +795,7 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
                       Container(
                         height: 50,
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                           child: FutureBuilder(
                               future: epidemicTrendButton(),
                               builder: (context, snapshot) {
@@ -797,7 +809,7 @@ class _HomeState extends State<Home> {
                           )
                       ),
                       Container(
-                          margin: EdgeInsets.fromLTRB(0, 5, 0, 15),
+                          margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                           height: 50,
                           child: FutureBuilder(
                               future: spreadRateButton(),
