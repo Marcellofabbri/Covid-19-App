@@ -467,7 +467,7 @@ class _HomeState extends State<Home> {
 
     Timer(Duration(milliseconds: 1000), () { Navigator.pushNamed(
         context,
-        '/history',
+        '/spread',
         arguments: ScreenArguments(countryListForDisplay[selectedCountry], historicRecords)
     );});
 
@@ -486,7 +486,9 @@ class _HomeState extends State<Home> {
 
   timestampBuilder() {
     if (countryList[selectedCountry].timeStamp.replaceFirst(RegExp('T'), ' | ').length > 16) {
-      return countryList[selectedCountry].timeStamp.replaceFirst(RegExp('T'), ' | ').substring(0, 18) + ' GMT';
+      var timestamp = Jiffy(countryList[selectedCountry].timeStamp);
+      var summerTimestamp = timestamp.subtract(duration: Duration(hours: 1));
+      return Jiffy(summerTimestamp).format("dd MMM yyyy - HH:mm") + ' GMT';
     }
   }
 
@@ -531,7 +533,8 @@ class _HomeState extends State<Home> {
               child: RaisedButton(
                   color: Colors.blueGrey[700],
                   onPressed: () { loadUp();
-                  build(context);},
+                  build(context);
+                  print(Jiffy(countryList[selectedCountry].timeStamp).format("dd-MMM-yyyy"));},
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -689,6 +692,7 @@ class _HomeState extends State<Home> {
                                   borderRadius: BorderRadius.only(topRight: Radius.circular(3), bottomRight: Radius.circular(3)),
                                 ),
                                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 alignment: AlignmentDirectional.center,
                                 height: 33,
                                 width: 90,
@@ -708,6 +712,55 @@ class _HomeState extends State<Home> {
                         );
                       })
                     ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          height: 33,
+                          width: 195,
+                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          alignment: AlignmentDirectional.centerStart,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 0.05, color: Colors.blueGrey[900]),
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(3), bottomLeft: Radius.circular(3)),
+                            color: Colors.white70.withOpacity(0.5)
+                            ),
+                          child: Text('${timestampBuilder()}',
+                              style: TextStyle(
+                                //fontFamily: 'YK',
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  )
+                          )
+                        ),
+                        Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blueGrey[900].withOpacity(0.6),
+                              border: Border.all(width: 0.12, color: Colors.blueGrey[900]),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(3), bottomRight: Radius.circular(3)),
+                            ),
+                            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            alignment: AlignmentDirectional.center,
+                            height: 33,
+                            width: 90,
+                            child: Text('500',
+                                style: TextStyle(
+                                  //fontFamily: 'YK',
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                    color: Colors.white.withOpacity(0.9),
+                                    shadows: [Shadow(blurRadius: 5, color: Colors.brown, offset: Offset(0, 0))]
+                                )
+                            )
+                        )
+                      ],
+                    )
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
