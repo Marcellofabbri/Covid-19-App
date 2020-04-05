@@ -11,6 +11,7 @@ import 'package:covid19app/history.dart';
 import 'package:covid19app/record.dart';
 import 'package:covid19app/spread.dart';
 import 'package:async/async.dart';
+import 'package:covid19app/about.dart';
 
 void main() => runApp(MaterialApp(
   initialRoute: '/',
@@ -18,6 +19,7 @@ void main() => runApp(MaterialApp(
     '/': (context) => Home(),
     '/history': (context) => History(),
     '/spread': (context) => Spread(),
+    '/about': (context) => About(),
   }
 ));
 
@@ -511,22 +513,35 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[900],
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-              child: timestampBuilder() == null ?
-              SpinKitWave(color: Colors.white, size: 18) :
-              Text('Updated: ${timestampBuilder()}',
-                style: TextStyle(
-                  letterSpacing: 0.0,
-                  fontFamily: 'YK',
-                  fontSize: 18.0,
-                  color: Colors.white
-                )
+            Container(
+              width: 100,
+              height: 25,
+              child: RaisedButton(
+                  color: Colors.blueGrey[700],
+                  onPressed: () {
+                    Navigator.pushNamed(
+                        context,
+                        '/about'
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                          width: 20,
+                          child: loadingButtonColor()
+                      ),
+                      Text('About',
+                          style: TextStyle(
+                              color: Colors.amber[300]
+                          )
+                      )
+                    ],
+                  ),
               ),
             ),
-            (countryList[selectedCountry].timeStamp.replaceFirst(RegExp('T'), ' | ').length > 16) ?
             Container(
               width: 100,
               height: 25,
@@ -550,7 +565,7 @@ class _HomeState extends State<Home> {
                     ],
                   )
               ),
-            ) : Container(),
+            )
           ],
         )
       ),
