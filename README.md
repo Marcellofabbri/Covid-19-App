@@ -1,8 +1,14 @@
-# COVID-19 APP
+# COVID-19 TRACKER
 
 An app for latest updates on the Coronavirus epidemic.
 
-![alt text](https://github.com/Marcellofabbri/Covid-19-App/blob/master/Snapshot-020420.png)
+![alt text](https://github.com/Marcellofabbri/Covid-19-App/blob/master/3screens.png)
+
+
+![alt text](https://github.com/Marcellofabbri/Covid-19-App/blob/master/infocard.png)
+
+
+![alt text](https://github.com/Marcellofabbri/Covid-19-App/blob/master/infocard2.png)
 
 # Project's backstory
 
@@ -72,7 +78,7 @@ Two countries, Curaçao and Réunion, contain problematic characteres that rende
 <img src="https://github.com/Marcellofabbri/Covid-19-App/blob/master/screenshots/chart.png?raw=true">
 </p>
 
--**Trend**: below the chart I build a table that takes the data retrieved from the second API, and filters them according to what country was selected before going into this route, and takes the figures for daily cases from the last five days. The figures shown for each day are: 1) the daily cases on that day. 2) the increase/decrease compared to the previous day expressed in percentage. 3) the actual number of how many more or how many fewer cases there have been compared to the previous day.
+-**Day-By-Day**: below the chart I build a table that takes the data retrieved from the second API, and filters them according to what country was selected before going into this route, and takes the figures for daily cases from the last five days. The figures shown for each day are: 1) the daily cases on that day. 2) the increase/decrease compared to the previous day expressed in percentage. 3) the actual number of how many more or how many fewer cases there have been compared to the previous day.
 The percentage column has an icon that shows a green downward arrow when there's a decrease or a red upward arrow when there's an increase.
 A notable bug: when a country has a day with 0 cases followed by a day with a number of cases it makes the app crash due to the calculations to obtain the percentage of variance, which involve dividing today's cases with yesterday's cases. And if yesterday's cases are zero the calculation would need the number to be divided by zero. So when yesterday's numbers are zero the calculation is avoided and 'N/A' is shown.
 Another bug: the second API does not necessarily have all of the countries provided by the first API (which is responsible for creating our list of countries). So certain Countries object, such as 'World', 'Isle-of-Man' and others might not have corresponding data in the second API, therefore causing an error. Some of these simple have a rendering problem: I already fixed Britain for example, whose name extrapolated from the first API on the home page is _UK_ and couldn't be queried in the second API, where it's called _UnitedKingdom_. For now I implemented a function that changes the button for routing: when the selected country exists on the second API (thus when the query pans out) the button appears green. When it doesn't exists, it looks red and has a different label. When it's completing the task and is determining which scenario we're in it shows a yellow animated dot.
@@ -81,9 +87,16 @@ Another bug: the second API does not necessarily have all of the countries provi
 <img src="https://github.com/Marcellofabbri/Covid-19-App/blob/master/screenshots/trend.png?raw=true">
 </p>
 
--**Launcher icon**: every app on every phone has an icon that starts it when tapped. I'm working on it. I created one already, but it appears enclosed in a bigger white container. What I need to figure out is how to make an _adaptive icon_ that renders well on mobile devices.
+-**Trend**: to better show the trend of the epidemic in a current country I added another button leading to another route (/spread) that takes the same data as parameters and similarly builds two more charts, accompanied by the same kind of scrollable list. However on this page the datapoints are built by bundling together data in 5-days periods, so that it's easier to discern a curve based on averaged out data.
 
--**Deployment**: every app released on Google Play needs to be signed and its building is not straightforward like creating a whole APK but split and bundled. I have to figure out how to do these and hopefully deploy the app so it's available for download.
+-**Launcher icon**: every app on every phone has an icon that starts it when tapped. I'm working on it. I created one already, but it appeared enclosed in a bigger white container. What I had to figure out is how to make an _adaptive icon_ that renders well on mobile devices. Finally I managed to to upload the background and foreground for the icon so that they're shown in the best possible way according to the device's settings.
+
+-**Homepage restyling**: I decided to move the timestamp from the bottom bar to a seventh container that looks very similar to the six ones that are centered in the home page. This way the connection between these numbers and the timestamp is more intuitive. Also, just like the _Reload_ button visually changes while the data is being pulled, the seventh container with the timestamp also becomes red-tinged for the duration of the data-retrieving function, and returns to its original grey-ish color at the end of the process, indicating that data have finished updating.-
+
+-**Buttons animation**: the buttons that lead to /history and /spread displayed a slight delay in completing the loading of the new page. So I changed the icons to bigger square icons and they get substituted by two equally sized square animated icons that become animated as soon as the button is touched, until the page has finished loading up. This way the user will know that the button has been tapped and that something is happening behind the scenes, namely the new page is being assembled. I believe the parameters and the building of the charts are what is causing the slight delay.
+
+-**Deployment**: every app released on Google Play needs to be signed and its building is not straightforward like creating a whole APK but split and bundled. The app has been submitted to Google Play however they don't allow Coronavirus related apps unless commissioned by the Government or other health public authority.
+So it's been submitted to Amazon Apps instead.
 
 ## Getting Started
 
