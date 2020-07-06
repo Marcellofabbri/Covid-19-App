@@ -23,6 +23,8 @@ class Loader {
       'Content-Type': 'application/json; charset=utf-8'
     });
     var body = responseHistoric.body;
+    print('PRINTING');
+    print(jsonDecode(body));
     body = body.substring(body.indexOf('{'));
     historicData = jsonDecode(body);
   }

@@ -77,6 +77,9 @@ class _HomeState extends State<Home> {
   populateHistoricRecords() async {
     historicRecords = [];
     historicData = await historicData;
+    print('HISTORIC DATA FIRST RECORD');
+    print(historicData['records'][0]['countriesAndTerritories']);
+    print(countryListForDisplay[selectedCountry].nation);
     for (var n = 0; n < historicData['records'].length; n++) {
       if (historicData['records'][n]['countriesAndTerritories'] == countryListForDisplay[selectedCountry].nation ||
           historicData['records'][n]['countryterritoryCode'] == countryListForDisplay[selectedCountry].nation ||
@@ -86,8 +89,9 @@ class _HomeState extends State<Home> {
         String formattedExtrapolatedDate = extrapolatedDate.substring(6, 10) +
             extrapolatedDate.substring(3, 5) + extrapolatedDate.substring(0, 2);
         DateTime dateOfRecord = DateTime.parse(formattedExtrapolatedDate);
-        String extrapolatedNewCases = historicData['records'][n]['cases'];
-        String extrapolatedNewDeaths = historicData['records'][n]['deaths'];
+        print(dateOfRecord);
+        String extrapolatedNewCases = historicData['records'][n]['cases'].toString();
+        String extrapolatedNewDeaths = historicData['records'][n]['deaths'].toString();
         double numberOfNewCases = double.parse(extrapolatedNewCases);
         double numberOfNewDeaths = double.parse(extrapolatedNewDeaths);
         Record newRecord = Record(
@@ -274,6 +278,7 @@ class _HomeState extends State<Home> {
       country.secondName = ', United States';
     } else if (country.nation == 'S.-Korea') {
       country.secondName = ', South Korea';
+      country.thirdName = 'South_Korea';
     } else if (country.nation == 'Bosnia-and-Herzegovina') {
       country.thirdName = 'Bosnia_and_Herzegovina';
     } else if (country.nation == 'Brunei-') {
@@ -320,8 +325,6 @@ class _HomeState extends State<Home> {
       country.thirdName = 'Papua_New_Guinea';
     } else if (country.nation == 'Puerto-Rico') {
       country.thirdName = 'Puerto_Rico';
-    } else if (country.nation == 'S.-Korea') {
-      country.thirdName = 'South_Korea';
     } else if (country.nation == 'Saint-Lucia') {
       country.thirdName = 'Saint_Lucia';
     } else if (country.nation == 'San-Marino') {
